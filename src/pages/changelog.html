@@ -1,0 +1,27 @@
+<!-- {"title": "ARV changelog: spec, site and process changes | Agent-Ready Video", "description": "Dated changes to the Agent-Ready Video (ARV) specification, schemas, site and standards process, newest first. Draft 1.0 was proposed on 2026-09-23.", "path": "/changelog", "out": "changelog.html", "crumb": "Changelog"} -->
+<h1>Changelog</h1>
+<p class="lede">Changes to the spec, the examples, this site and the standards process, newest first. Spec-only changes are also listed in <a href="/spec/1.0#changes">spec section 6</a>.</p>
+
+<ol class="changelog">
+<li>
+<time datetime="2026-09-24">2026-09-24</time>
+<h2 id="2026-09-24">Entitlement and payment fields, site launch, registrations</h2>
+<ul>
+  <li><strong>Spec.</strong> Optional <code>entitlement</code> and <code>payment</code> fields added to the RightsSummary and PlaybackDescriptor, <code>entitlement_ref</code> and <code>payment_ref</code> to the UsageReceipt, and <code>entitlement_url</code> and <code>payment_terms_url</code> to the Manifest. Defined in 1.0, implementation optional. <a href="/spec/1.0#rights-summary">Section 3.3</a>.</li>
+  <li><strong>Examples.</strong> New <a href="/examples/1.0/rights-summary-account-link.json">restricted rights summary</a> that needs a linked account. The base examples carry the free forms.</li>
+  <li><strong>Site.</strong> agentreadyvideo.org launched with a <a href="/quickstart">quick start</a>, a versioned spec URL at <a href="/spec/1.0">/spec/1.0</a>, an <a href="/implementations">implementations</a> page and this changelog.</li>
+  <li><strong>IANA.</strong> Provisional registration request for the <code>arv:</code> URI scheme submitted.</li>
+  <li><strong>W3C.</strong> Agent-Ready Video Community Group proposed. Not yet formed.</li>
+  <li><strong>schema.org.</strong> Guidance issue filed on marking up video moments as Clips: <a href="https://github.com/schemaorg/schemaorg/issues/4923">schemaorg/schemaorg#4923</a>.</li>
+</ul>
+</li>
+<li>
+<time datetime="2026-09-23">2026-09-23</time>
+<h2 id="2026-09-23">Draft 1.0 proposed</h2>
+<ul>
+  <li><strong>Spec.</strong> Agent-Ready Video (ARV) Draft 1.0 proposed: moments, per-moment rights, evidence, playback descriptors, usage receipts, bindings to thirteen standards and three conformance levels.</li>
+  <li><strong>Examples.</strong> Seven example objects served as JSON at <code>/examples/1.0/</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Follow changes as they happen on <a href="{{repo}}/commits/main">GitHub</a>.</p>

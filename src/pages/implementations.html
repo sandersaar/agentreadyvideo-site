@@ -1,0 +1,31 @@
+<!-- {"title": "ARV implementations: who implements Agent-Ready Video | Agent-Ready Video", "description": "Implementations of Agent-Ready Video (ARV) by conformance level and type. Draft 1.0 is proposed and has no implementations yet. How to list yours.", "path": "/implementations", "out": "implementations.html", "crumb": "Implementations"} -->
+<h1>Implementations</h1>
+<p class="lede">Draft 1.0 is proposed. There are no implementations yet. This page lists them as they pass the validator, including the maintainer's own.</p>
+
+<h2 id="list">Known implementations</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Implementation</th><th>Level</th><th>Type</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Reference producer (AgentCDN)</td><td>L1</td><td>Producer: writes manifest, catalog, JSON-LD, sitemap and llms.txt for a static site</td><td><span class="coming">coming</span></td></tr>
+</tbody>
+</table>
+</div>
+<p>No outside implementation is listed, because none exists yet. The draft stays "proposed" until an outside implementation passes the validator. See <a href="/governance#required">how a feature becomes required</a>.</p>
+
+<h2 id="types">What counts as an implementation</h2>
+<ul>
+  <li><strong>Origin.</strong> A site or platform that publishes ARV at L1, L2 or L3.</li>
+  <li><strong>Producer.</strong> A tool that writes ARV files or endpoints for someone else's video.</li>
+  <li><strong>Agent or client.</strong> An assistant or library that reads ARV and cites or plays moments.</li>
+  <li><strong>Player adapter.</strong> Code that starts a player from a PlaybackDescriptor.</li>
+</ul>
+<p>An entry needs a public URL and, once the validator ships, a current validator report for the level it claims. Until then we list entries as "self-reported".</p>
+
+<h2 id="list-yours">List yours</h2>
+<p>Send the name, the level you target, the type, a public URL and a contact. We reply and add a row.</p>
+<div class="cta">
+  <a class="btn primary" href="mailto:team@agentreadyvideo.org?subject=ARV%20implementation">Email team@agentreadyvideo.org</a>
+  <a class="btn" href="{{repo}}/issues">Open a GitHub issue</a>
+</div>
+<p>New to ARV? Start with the <a href="/quickstart">five-minute quick start</a>.</p>

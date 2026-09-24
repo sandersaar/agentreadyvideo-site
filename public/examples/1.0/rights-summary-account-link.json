@@ -3,11 +3,11 @@
   "moment_uri": "arv:vid_8f2c#t=12400,31000",
   "rsl": { "permits": ["search", "ai-input", "ai-index"], "prohibits": ["ai-train"], "payment": "attribution" },
   "aipref": "train-ai=n, ai-use=y, search=y",
-  "video": { "segment_display": true, "source_embed_display": true, "full_video_display": false, "clip": false, "quote_max_ms": 15000 },
+  "video": { "segment_display": true, "source_embed_display": false, "full_video_display": false, "clip": false, "quote_max_ms": 15000 },
   "attribution_required": true,
   "policy_version": 7,
   "expires_at": "2026-09-24T00:00:00Z",
   "license_url": "https://example.com/license.xml",
-  "entitlement": { "required": false, "kind": "none" },
+  "entitlement": { "required": true, "kind": "account_link", "link_url": "https://example.com/account/link?moment=vid_8f2c", "provider": "example-garage-members" },
   "payment": { "required": false, "model": "free" }
 }

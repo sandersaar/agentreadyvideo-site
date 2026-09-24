@@ -1,39 +1,63 @@
-<!-- {"title": "ARV Specification, Draft 1.0 | Agent-Ready Video", "description": "The Agent-Ready Video (ARV) specification, Draft 1.0: moments, per-moment rights, evidence, playback descriptors, usage receipts, bindings and conformance levels.", "path": "/spec", "out": "spec.html", "crumb": "Specification", "schema": "techarticle"} -->
-<h1>Agent-Ready Video (ARV) Specification</h1>
-<p class="lede">Draft 1.0, proposed. Published 2026-09-23. This draft may change before 1.0 is final.</p>
-
-<nav class="toc" aria-label="Contents">
-<strong>Contents</strong>
+<!-- {"title": "ARV Specification, Draft 1.0 | Agent-Ready Video", "description": "The Agent-Ready Video (ARV) specification, Draft 1.0: moments, per-moment rights, evidence, entitlement and payment, playback descriptors, usage receipts, bindings and conformance.", "path": "/spec/1.0", "out": "spec/1.0/index.html", "crumb": "Specification 1.0", "schema": "techarticle", "wide": true} -->
+<div class="doc">
+<!--nomd--><details class="toc" open>
+<summary>Contents</summary>
+<nav aria-label="Specification contents">
 <ol>
-  <li><a href="#purpose">Purpose and definition</a></li>
-  <li><a href="#scope">Scope</a></li>
-  <li><a href="#objects">Core objects</a>
+  <li><a href="#top">Status of this document</a></li>
+  <li><a href="#conventions">Conventions</a></li>
+  <li><a href="#glossary">Key terms</a></li>
+  <li><a href="#purpose">1. Purpose and definition</a></li>
+  <li><a href="#scope">2. Scope</a></li>
+  <li><a href="#objects">3. Core objects</a>
     <ol>
-      <li><a href="#asset">Asset</a></li>
-      <li><a href="#moment">Moment</a></li>
-      <li><a href="#rights-summary">RightsSummary</a></li>
-      <li><a href="#playback-descriptor">PlaybackDescriptor</a></li>
-      <li><a href="#usage-receipt">UsageReceipt</a></li>
-      <li><a href="#manifest">Manifest</a></li>
-      <li><a href="#catalog">Catalog</a></li>
+      <li><a href="#asset">3.1 Asset</a></li>
+      <li><a href="#moment">3.2 Moment</a></li>
+      <li><a href="#rights-summary">3.3 RightsSummary</a></li>
+      <li><a href="#playback-descriptor">3.4 PlaybackDescriptor</a></li>
+      <li><a href="#usage-receipt">3.5 UsageReceipt</a></li>
+      <li><a href="#manifest">3.6 Manifest</a></li>
+      <li><a href="#catalog">3.7 Catalog</a></li>
     </ol>
   </li>
-  <li><a href="#bindings">Bindings</a>
+  <li><a href="#bindings">4. Bindings</a>
     <ol>
-      <li><a href="#crawl-time">Crawl time</a></li>
-      <li><a href="#inference-time">Inference time</a></li>
-      <li><a href="#playback">Playback</a></li>
+      <li><a href="#crawl-time">4.1 Crawl time</a></li>
+      <li><a href="#inference-time">4.2 Inference time</a></li>
+      <li><a href="#playback">4.3 Playback</a></li>
     </ol>
   </li>
-  <li><a href="#conformance">Conformance levels and the badge</a></li>
+  <li><a href="#conformance">5. Conformance</a>
+    <ol>
+      <li><a href="#l1">5.1 L1 crawl-readable</a></li>
+      <li><a href="#l2">5.2 L2 agent-callable</a></li>
+      <li><a href="#l3">5.3 L3 rights and ledger</a></li>
+      <li><a href="#badge">5.4 The badge</a></li>
+    </ol>
+  </li>
+  <li><a href="#changes">6. Changes</a></li>
+  <li><a href="#cite">How to cite</a></li>
 </ol>
-<p class="small">Also: <a href="#conventions">Conventions</a> · <a href="#glossary">Key terms</a> · <a href="#cite">How to cite</a> · <a href="/faq">FAQ</a></p>
 </nav>
+</details>
+<script>if(!matchMedia("(min-width: 1024px)").matches)document.querySelector("details.toc").open=false</script><!--/nomd-->
+<article>
+<h1 id="top">Agent-Ready Video (ARV) Specification</h1>
+<p class="lede">Draft 1.0, proposed. Published 2026-09-23, updated 2026-09-24. This draft may change before 1.0 is final.</p>
+<!--nomd--><dl class="docmeta">
+  <dt>This version</dt><dd><a href="/spec/1.0">https://agentreadyvideo.org/spec/1.0</a></dd>
+  <dt>Latest version</dt><dd><a href="/spec">https://agentreadyvideo.org/spec</a> (redirects to the latest)</dd>
+  <dt><label for="version">Other versions</label></dt><dd><select id="version" data-version><option value="/spec/1.0" selected>1.0 (Draft, proposed)</option></select> No earlier versions.</dd>
+  <dt>Status</dt><dd>Draft 1.0, proposed. No implementations yet.</dd>
+  <dt>Maintainer</dt><dd><a href="https://agentcdn.com">AgentCDN</a></dd>
+  <dt>Feedback</dt><dd><a href="{{repo}}/issues">GitHub issues</a> or <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></dd>
+  <dt>Changes</dt><dd><a href="#changes">Section 6</a> and the <a href="/changelog">changelog</a></dd>
+</dl><!--/nomd-->
 
-<h2 id="conventions">Conventions <a class="anchor" href="#conventions" aria-label="Link to Conventions">#</a></h2>
+<h2 id="conventions">Conventions</h2>
 <p>The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be read as described in RFC 2119. All times are integer milliseconds unless a field says otherwise. Every ARV object carries <code>"arv": "1.0"</code>. Examples use <code>example.com</code> and are not normative, except where a rule says so.</p>
 
-<h2 id="glossary">Key terms <a class="anchor" href="#glossary" aria-label="Link to Key terms">#</a></h2>
+<h2 id="glossary">Key terms</h2>
 <p>Short definitions. Section 3 holds the normative rules.</p>
 <dl class="glossary">
   <dt id="term-moment">Moment</dt>
@@ -56,7 +80,7 @@
   <dd>A JSON list of assets and their published moments, usually at <code>/arv.json</code>. The manifest points to it.</dd>
 </dl>
 
-<h2 id="purpose">1. Purpose and definition <a class="anchor" href="#purpose" aria-label="Link to section 1">#</a></h2>
+<h2 id="purpose">1. Purpose and definition</h2>
 <p><strong>Agent-Ready Video (ARV) is a profile that binds existing web and agent standards into one way to make video usable by AI.</strong> A publisher that follows ARV is found by crawlers, called by agents and played by any player, with the same moment, rights and credit at each step.</p>
 <p>ARV reuses schema.org, video sitemaps, Media Fragments, RSL, AIPREF, MCP, WebMCP, NLWeb and A2A as they are. It adds only what video needs and no other standard defines:</p>
 <ol>
@@ -73,7 +97,7 @@
   <li><strong>One badge.</strong> "ARV L1", "ARV L2" or "ARV L3", earned only by a green validator run, with a dated report URL.</li>
 </ul>
 
-<h2 id="scope">2. Scope <a class="anchor" href="#scope" aria-label="Link to section 2">#</a></h2>
+<h2 id="scope">2. Scope</h2>
 <p>ARV defines formats and behavior at the edge of a video origin: what it publishes for crawlers, what its tools accept and return, what a player receives, and what a receipt proves. The format is open. How well a publisher fills it is up to the publisher.</p>
 <p>In scope:</p>
 <ul>
@@ -90,10 +114,10 @@
 </ul>
 <p><strong>The moment is an address, not a pre-cut list.</strong> An agent may name any range on any asset. Published moments (chapters, shots, evidence-backed ranges) are suggestions the origin offers. <code>get_rights</code>, <code>play_moment</code> and <code>record_usage</code> MUST accept any range. The origin MAY snap or cap the range and MUST return the range it applied.</p>
 
-<h2 id="objects">3. Core objects <a class="anchor" href="#objects" aria-label="Link to section 3">#</a></h2>
+<h2 id="objects">3. Core objects</h2>
 <p>Each object has a JSON Schema at <code>https://agentreadyvideo.org/schema/1.0/&lt;name&gt;.schema.json</code>. See the <a href="/schema/1.0/">schema index</a>.</p>
 
-<h3 id="asset">3.1 Asset <a class="anchor" href="#asset" aria-label="Link to 3.1">#</a></h3>
+<h3 id="asset">3.1 Asset</h3>
 <p>One video as published by an origin.</p>
 <ul>
   <li><code>id</code> MUST be unique within the publishing origin.</li>
@@ -104,7 +128,7 @@
 </ul>
 {{example:asset}}
 
-<h3 id="moment">3.2 Moment <a class="anchor" href="#moment" aria-label="Link to 3.2">#</a></h3>
+<h3 id="moment">3.2 Moment</h3>
 <p>A time range on an asset. Its identity is the canonical range after snapping. Two producers that snap to the same range name the same moment.</p>
 <ul>
   <li><code>start_ms</code> and <code>end_ms</code> MUST satisfy <code>0 &lt;= start_ms &lt; end_ms &lt;= duration_ms</code>.</li>
@@ -119,18 +143,23 @@
 <p>Chapters, shots and spans are all moments. The spec does not care how a range was found.</p>
 {{example:moment}}
 
-<h3 id="rights-summary">3.3 RightsSummary <a class="anchor" href="#rights-summary" aria-label="Link to 3.3">#</a></h3>
+<h3 id="rights-summary">3.3 RightsSummary</h3>
 <p>The public rights for one moment. Terms use RSL 1.0 words where RSL has one, and the <code>arv:</code> extension namespace where it does not.</p>
 <ul>
   <li><code>rsl</code> tokens MUST be RSL 1.0 words.</li>
   <li><code>aipref</code> MUST be derived from the same rights record as <code>rsl</code>. The two MUST NOT disagree.</li>
   <li><code>video</code> holds the video terms: <code>segment_display</code>, <code>source_embed_display</code>, <code>full_video_display</code>, <code>clip</code> and <code>quote_max_ms</code>. An absent boolean means false.</li>
   <li><code>policy_version</code> MUST change whenever any term changes.</li>
-  <li>Finer terms (agent scope, territory, entitlement) are an L3 concern and live behind tools, not in this public summary.</li>
+  <li>Finer terms (agent scope, territory, tiers) are an L3 concern and live behind tools, not in this public summary.</li>
+  <li><code>entitlement</code> MAY be present, so discovery can say a moment needs a linked account before playback is requested. Fields: <code>required</code> (boolean), <code>kind</code> (<code>none</code>, <code>account_link</code>, <code>subscription</code> or <code>purchase</code>), optional <code>link_url</code> (https URL where the user links an account or buys) and optional <code>provider</code> (string).</li>
+  <li><code>payment</code> MAY be present. Fields: <code>required</code> (boolean), <code>model</code> (<code>free</code>, <code>per_use</code>, <code>per_view</code> or <code>subscription</code>), optional <code>amount</code> (<code>currency</code> as an ISO 4217 code and <code>minor_units</code> as an integer), optional <code>methods</code> (strings such as <code>http-402</code>, <code>stripe-agentic</code>, <code>ap2</code> or <code>wallet</code>) and optional <code>challenge_url</code> (https URL).</li>
 </ul>
+<p id="entitlement-payment">Defined in 1.0, implementation optional. An L3 origin that sets <code>required</code> to true MUST answer a token request that lacks the entitlement or payment with HTTP 402 or 403 and the <code>challenge_url</code>.</p>
 {{example:rights-summary}}
+<p>A restricted moment that needs a linked account:</p>
+{{example:rights-summary-account-link}}
 
-<h3 id="playback-descriptor">3.4 PlaybackDescriptor <a class="anchor" href="#playback-descriptor" aria-label="Link to 3.4">#</a></h3>
+<h3 id="playback-descriptor">3.4 PlaybackDescriptor</h3>
 <p>What a player needs to start a moment. It is player neutral and is returned only by a playback call, never by discovery.</p>
 <ul>
   <li><code>start_ms</code> MUST be present. The player starts there.</li>
@@ -139,20 +168,22 @@
   <li>Each entry in <code>sources</code> names a <code>kind</code> (<code>hls</code>, <code>dash</code>, <code>mp4</code> or <code>embed</code>) and how to start it: a <code>token_ref</code> plus <code>start_ms</code>, or an <code>embed_url</code> plus the player's own <code>start_param</code>.</li>
   <li><code>token_ref</code> is exchanged at the origin for a short-lived URL. A signed media URL MUST NOT appear in any cached or crawlable response.</li>
   <li><code>token.expires_at</code> MUST be no more than 15 minutes after issue.</li>
+  <li><code>entitlement</code> and <code>payment</code> MAY be present, with the shapes in <a href="#rights-summary">3.3</a>. Defined in 1.0, implementation optional. An L3 origin that sets <code>required</code> to true MUST answer a token request that lacks the entitlement or payment with HTTP 402 or 403 and the <code>challenge_url</code>.</li>
 </ul>
 {{example:playback-descriptor}}
 
-<h3 id="usage-receipt">3.5 UsageReceipt <a class="anchor" href="#usage-receipt" aria-label="Link to 3.5">#</a></h3>
+<h3 id="usage-receipt">3.5 UsageReceipt</h3>
 <p>A signed record that an agent served a moment.</p>
 <ul>
   <li><code>moment_uri</code> and <code>moment_id</code> MUST resolve to a moment at the origin.</li>
   <li><code>action</code> names what was done, using the terms in the RightsSummary (for example <code>segment_display</code>).</li>
   <li><code>policy_version</code> MUST be the rights policy in force when the moment was served.</li>
   <li><code>jws</code> MUST be a JWS over the receipt, verifiable with a key from the origin's <code>jwks_url</code>.</li>
+  <li><code>entitlement_ref</code> and <code>payment_ref</code> MAY be present, as strings that point at what unlocked or paid for the use. Defined in 1.0, implementation optional.</li>
 </ul>
 {{example:usage-receipt}}
 
-<h3 id="manifest">3.6 Manifest <a class="anchor" href="#manifest" aria-label="Link to 3.6">#</a></h3>
+<h3 id="manifest">3.6 Manifest</h3>
 <p>Served at <code>/.well-known/arv</code> as JSON. It is the entry point for every validator and agent.</p>
 <ul>
   <li><code>conformance_level</code> is the level the publisher claims: <code>L1</code>, <code>L2</code> or <code>L3</code>.</li>
@@ -160,17 +191,18 @@
   <li><code>tool_profiles</code> lists the declared inference surfaces. Omit what you do not offer.</li>
   <li><code>jwks_url</code> is REQUIRED at L3.</li>
   <li><code>schema</code> SHOULD point to the manifest schema for the version in use.</li>
+  <li><code>entitlement_url</code> (where users link accounts or manage entitlements) and <code>payment_terms_url</code> (the origin's payment terms) MAY be present, both https URLs. Defined in 1.0, implementation optional.</li>
 </ul>
 {{example:manifest}}
 
-<h3 id="catalog">3.7 Catalog <a class="anchor" href="#catalog" aria-label="Link to 3.7">#</a></h3>
+<h3 id="catalog">3.7 Catalog</h3>
 <p>A list of assets and their published moments, conventionally at <code>/arv.json</code>. Every moment in a catalog MUST validate as a Moment and reference an asset in the same catalog or reachable from the manifest.</p>
 {{example:catalog}}
 
-<h2 id="bindings">4. Bindings <a class="anchor" href="#bindings" aria-label="Link to section 4">#</a></h2>
-<p>How ARV objects appear inside the standards it binds. The <a href="/#bindings">binding table</a> summarises all thirteen.</p>
+<h2 id="bindings">4. Bindings</h2>
+<p>How ARV objects appear inside the standards it binds. The <a href="/#bindings">binding table</a> on the home page summarises all thirteen.</p>
 
-<h3 id="crawl-time">4.1 Crawl time <a class="anchor" href="#crawl-time" aria-label="Link to 4.1">#</a></h3>
+<h3 id="crawl-time">4.1 Crawl time</h3>
 <ul>
   <li><strong>schema.org.</strong> JSON-LD <code>VideoObject</code> with <code>hasPart</code> <code>Clip</code> items. Clip <code>@id</code> MUST equal <code>moment_uri</code>. Clip <code>url</code> MUST equal <code>moment_url</code>. A Clip MUST NOT be emitted for a moment without <code>segment_display</code>.</li>
   <li><strong>Sitemaps and MRSS.</strong> Video sitemap and MRSS entries per asset, with <code>&lt;link rel="arv"&gt;</code> to the manifest.</li>
@@ -180,7 +212,7 @@
   <li><strong>AIPREF.</strong> A <code>Content-Usage</code> header from the same rights record. The AIPREF vocabulary is still an IETF draft; ARV cites it as informative and the validator pins the tokens it accepts.</li>
 </ul>
 
-<h3 id="inference-time">4.2 Inference time <a class="anchor" href="#inference-time" aria-label="Link to 4.2">#</a></h3>
+<h3 id="inference-time">4.2 Inference time</h3>
 <ul>
   <li><strong>MCP origin profile.</strong> Tool names: <code>search_moments</code>, <code>get_moment</code>, <code>get_rights</code>, <code>play_moment</code>, <code>record_usage</code>, plus <code>search</code> and <code>fetch</code> for clients that only speak those two. A server MAY declare other names as aliases. MCP Apps UI is optional and declared with <code>_meta.ui.resourceUri</code> and <code>ui.csp</code>.</li>
   <li><strong>WebMCP page profile.</strong> Three tools on <code>document.modelContext</code>: <code>search_this_catalog</code>, <code>get_moment_context</code> and <code>play_moment</code>, with <code>ask_this_video</code> optional. Results use a short-lived <code>moment_ref</code>, and rights are rechecked before context and playback.</li>
@@ -189,7 +221,7 @@
 </ul>
 <p id="forbidden-fields"><strong>Forbidden-field rule (normative).</strong> Discovery responses (search, list, ask, JSON-LD, feeds, sitemaps, llms.txt) MUST NOT carry <code>playback_url</code>, <code>stream_url</code>, <code>playback_token</code>, or any manifest or media URL that plays without an origin check. Discovery finds moments. Only a playback call starts them.</p>
 
-<h3 id="playback">4.3 Playback <a class="anchor" href="#playback" aria-label="Link to 4.3">#</a></h3>
+<h3 id="playback">4.3 Playback</h3>
 <p>The descriptor is enough for a small adapter per player, under 100 lines, that maps <code>start_ms</code> (and any <code>cue_points</code>) to the player's own API. Examples: a plain <code>&lt;video&gt;</code> element with Media Fragments, hls.js, commercial web players, and iframe embeds such as YouTube (<code>start</code> parameter, <code>t=</code> on watch links).</p>
 <ul>
   <li>Adapters MUST start at <code>start_ms</code>.</li>
@@ -197,10 +229,10 @@
   <li>Adapters SHOULD report how the start was reached: <code>sought</code>, <code>cued</code> or <code>fallback</code>.</li>
 </ul>
 
-<h2 id="conformance">5. Conformance levels and the badge <a class="anchor" href="#conformance" aria-label="Link to section 5">#</a></h2>
-<p>The validator is a command-line tool and a hosted page. It runs against a live origin or a local folder. Each check names the standard it comes from. The validator is not yet released; see <a href="/adopt#validator">Adopt</a>.</p>
+<h2 id="conformance">5. Conformance</h2>
+<p>The validator is a command-line tool and a hosted page. It runs against a live origin or a local folder. Each check names the standard it comes from. The validator is not yet released; see the <a href="/quickstart#step-validate">quick start</a>.</p>
 
-<h3 id="l1">L1 crawl-readable</h3>
+<h3 id="l1">5.1 L1 crawl-readable</h3>
 <ol class="checks">
   <li><code>/.well-known/arv</code> returns 200 JSON that validates against the manifest schema.</li>
   <li>Every catalog URL returns a valid catalog. Every moment has <code>start_ms &lt; end_ms</code>, both inside <code>duration_ms</code>, and a recomputable <code>id</code>.</li>
@@ -212,7 +244,7 @@
   <li>No forbidden field appears in any L1 surface.</li>
 </ol>
 
-<h3 id="l2">L2 agent-callable (L1 plus)</h3>
+<h3 id="l2">5.2 L2 agent-callable (L1 plus)</h3>
 <ol class="checks" start="9">
   <li>The MCP endpoint lists the origin profile names or declared aliases. Each input and result validates.</li>
   <li><code>search_moments</code> returns moments that resolve through <code>get_moment</code> to the same range.</li>
@@ -222,7 +254,7 @@
   <li>If NLWeb or A2A is declared, the endpoint responds and items carry <code>moment_uri</code>.</li>
 </ol>
 
-<h3 id="l3">L3 rights and ledger (L2 plus)</h3>
+<h3 id="l3">5.3 L3 rights and ledger (L2 plus)</h3>
 <ol class="checks" start="15">
   <li><code>jwks_url</code> serves keys, and playback tokens and receipts verify against them.</li>
   <li>Negative tests pass: a moment with <code>segment_display=false</code> yields no descriptor; a revoked policy stops a live token; an agent outside scope is refused; a quote over <code>quote_max_ms</code> is refused.</li>
@@ -230,10 +262,19 @@
   <li>RSL, the AIPREF header and the RightsSummary agree for sampled moments.</li>
 </ol>
 
-<h3 id="badge">The badge</h3>
+<h3 id="badge">5.4 The badge</h3>
 <p>An SVG reading "ARV L1", "ARV L2" or "ARV L3" that links to a dated validator report. Reports expire after 90 days unless the validator is run again. Use of the name and badge follows a short conformance mark policy. The spec text itself may be forked under its license.</p>
 
-<h2 id="cite">How to cite <a class="anchor" href="#cite" aria-label="Link to How to cite">#</a></h2>
-<p>Canonical URL: <a href="https://agentreadyvideo.org/spec">https://agentreadyvideo.org/spec</a>. Link to a section with its anchor, for example <code>https://agentreadyvideo.org/spec#moment</code>.</p>
-<p class="cite">Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 23 September 2026. https://agentreadyvideo.org/spec</p>
-<p>Questions this page does not answer: see the <a href="/faq">FAQ</a>. To adopt it: <a href="/adopt">Adopt ARV</a>. To change it: <a href="/governance">Governance</a>.</p>
+<h2 id="changes">6. Changes</h2>
+<p>Changes to this draft since it was first published. The <a href="/changelog">changelog</a> also lists site and process news.</p>
+<ul>
+  <li><strong>2026-09-24.</strong> Added optional <code>entitlement</code> and <code>payment</code> objects to the RightsSummary (<a href="#rights-summary">3.3</a>) and the PlaybackDescriptor (<a href="#playback-descriptor">3.4</a>), <code>entitlement_ref</code> and <code>payment_ref</code> to the UsageReceipt (<a href="#usage-receipt">3.5</a>), and <code>entitlement_url</code> and <code>payment_terms_url</code> to the Manifest (<a href="#manifest">3.6</a>). New example: <a href="/examples/1.0/rights-summary-account-link.json">rights-summary-account-link.json</a>. Moved the canonical URL to <code>/spec/1.0</code>; <code>/spec</code> now redirects to the latest version.</li>
+  <li><strong>2026-09-23.</strong> Draft 1.0 proposed.</li>
+</ul>
+
+<h2 id="cite">How to cite</h2>
+<p>Canonical URL: <a href="/spec/1.0">https://agentreadyvideo.org/spec/1.0</a>. Link to a section with its anchor, for example <code>https://agentreadyvideo.org/spec/1.0#moment</code>.</p>
+<p class="cite">{{cite}}</p>
+<p>Questions this page does not answer: see the <a href="/faq">FAQ</a>. To start: the <a href="/quickstart">quick start</a>. To change it: <a href="/governance#contribute">Governance</a>.</p>
+</article>
+</div>

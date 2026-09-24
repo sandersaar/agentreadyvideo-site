@@ -1,6 +1,6 @@
 # Agent-Ready Video (ARV)
 
-> Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Status: Draft 1.0, proposed. Maintained by AgentCDN.
+> Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Optional entitlement and payment fields say when a moment needs a linked account or payment. Status: Draft 1.0, proposed. Maintained by AgentCDN.
 
 ## What this is
 
@@ -12,18 +12,21 @@
 ## Manifest
 
 - A publisher serves its manifest at `/.well-known/arv`. Example: https://agentreadyvideo.org/examples/1.0/manifest.json
-- Spec section for the manifest: https://agentreadyvideo.org/spec#manifest
+- Spec section for the manifest: https://agentreadyvideo.org/spec/1.0#manifest
 
 ## Pages
 
-- [Home](https://agentreadyvideo.org/): what ARV is, the five things it adds, who it is for, status and roadmap.
-- [Specification, Draft 1.0](https://agentreadyvideo.org/spec): purpose, scope, key terms, core objects, bindings, conformance, how to cite.
+- [Home](https://agentreadyvideo.org/): what ARV is, who it is for, how it works, a live example, status and roadmap.
+- [Specification, Draft 1.0](https://agentreadyvideo.org/spec/1.0): the canonical, versioned spec. Purpose, scope, key terms, core objects, bindings, conformance, changes, how to cite. https://agentreadyvideo.org/spec redirects to the latest version.
+- [Quick start](https://agentreadyvideo.org/quickstart): reach level L1 on a static site in five minutes with copyable files.
 - [FAQ](https://agentreadyvideo.org/faq): sixteen common questions with short, quotable answers.
-- [Adopt ARV](https://agentreadyvideo.org/adopt): pick a level, check it with the validator (coming), start from a starter (coming).
+- [Implementations](https://agentreadyvideo.org/implementations): none yet; how to list yours.
 - [Schema index](https://agentreadyvideo.org/schema/1.0/): seven objects. Schema files will live at https://agentreadyvideo.org/schema/1.0/<name>.schema.json (not published yet).
-- [Governance](https://agentreadyvideo.org/governance): maintainer, licenses, how a feature becomes required, status and roadmap, how to join.
+- [Changelog](https://agentreadyvideo.org/changelog): dated changes to the spec, examples, site and process.
+- [Governance](https://agentreadyvideo.org/governance): maintainer, licenses, how a feature becomes required, status and roadmap, how to contribute.
 - [llms-full.txt](https://agentreadyvideo.org/llms-full.txt): the full spec text and the FAQ as plain Markdown.
-- Examples: [asset](https://agentreadyvideo.org/examples/1.0/asset.json), [moment](https://agentreadyvideo.org/examples/1.0/moment.json), [rights-summary](https://agentreadyvideo.org/examples/1.0/rights-summary.json), [playback-descriptor](https://agentreadyvideo.org/examples/1.0/playback-descriptor.json), [usage-receipt](https://agentreadyvideo.org/examples/1.0/usage-receipt.json), [manifest](https://agentreadyvideo.org/examples/1.0/manifest.json), [catalog](https://agentreadyvideo.org/examples/1.0/catalog.json)
+- Source: https://github.com/sandersaar/agentreadyvideo-site
+- Examples: [asset](https://agentreadyvideo.org/examples/1.0/asset.json), [moment](https://agentreadyvideo.org/examples/1.0/moment.json), [rights-summary](https://agentreadyvideo.org/examples/1.0/rights-summary.json), [rights-summary-account-link](https://agentreadyvideo.org/examples/1.0/rights-summary-account-link.json), [playback-descriptor](https://agentreadyvideo.org/examples/1.0/playback-descriptor.json), [usage-receipt](https://agentreadyvideo.org/examples/1.0/usage-receipt.json), [manifest](https://agentreadyvideo.org/examples/1.0/manifest.json), [catalog](https://agentreadyvideo.org/examples/1.0/catalog.json)
 
 ## Tools
 
@@ -33,14 +36,14 @@
 ## License
 
 - Spec text: Community Specification License 1.0. Code: Apache-2.0. Docs: CC-BY-4.0.
-- Suggested citation: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. https://agentreadyvideo.org/spec
+- Suggested citation: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. https://agentreadyvideo.org/spec/1.0
 - Contact: team@agentreadyvideo.org
 
 ## Example questions
 
 - What is Agent-Ready Video?
 - How do I name a moment in a video so agents can cite it?
-- What does a site need to reach ARV L1?
+- What does a site need to reach ARV L1? (https://agentreadyvideo.org/quickstart)
 - Why must search results never include a stream URL?
 - Does the player stop at the end of a moment? (No. Start only: https://agentreadyvideo.org/faq#does-the-player-stop)
 - Is ARV a W3C standard? (No. A Community Group is proposed: https://agentreadyvideo.org/faq#w3c-standard)

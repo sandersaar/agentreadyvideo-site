@@ -55,5 +55,22 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/spec",
+      "destination": "/spec/1.0",
+      "permanent": false
+    },
+    {
+      "source": "/spec.html",
+      "destination": "/spec/1.0",
+      "permanent": false
+    },
+    {
+      "source": "/adopt",
+      "destination": "/quickstart",
+      "permanent": true
+    }
   ]
 }

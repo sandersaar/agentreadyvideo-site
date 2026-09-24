@@ -11,5 +11,7 @@
     "nlweb": { "ask": "https://example.com/ask" },
     "a2a": { "card": "https://example.com/.well-known/agent-card.json" }
   },
-  "schema": "https://agentreadyvideo.org/schema/1.0/manifest.schema.json"
+  "schema": "https://agentreadyvideo.org/schema/1.0/manifest.schema.json",
+  "entitlement_url": "https://example.com/account/link",
+  "payment_terms_url": "https://example.com/terms/payment"
 }

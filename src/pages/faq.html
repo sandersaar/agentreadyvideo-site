@@ -1,6 +1,6 @@
 <!-- {"title":"ARV FAQ: Agent-Ready Video questions answered","description":"Short answers about Agent-Ready Video (ARV): what it is, moments, playback, rights and receipts, RSL and AIPREF, conformance levels, licenses, W3C status and how to cite it.","path":"/faq","out":"faq.html","crumb":"FAQ","schema":"faq"} -->
 <h1>Agent-Ready Video (ARV) FAQ</h1>
-<p class="lede">Sixteen questions people ask about ARV, with answers you can quote. The <a href="/spec">spec</a> is the source of truth where the two differ.</p>
+<p class="lede">Sixteen questions people ask about ARV, with answers you can quote. The <a href="/spec/1.0">spec</a> is the source of truth where the two differ.</p>
 
 <nav class="toc" aria-label="Questions">
 <strong>Questions</strong>
@@ -72,7 +72,7 @@
 
 <section class="qa" id="static-site-l1">
 <h3>How does a static site reach L1?</h3>
-<p>A static site reaches L1 with files alone, and no server code. Publish a manifest at <code>/.well-known/arv</code>, a catalog at <code>/arv.json</code>, JSON-LD Clips on each video page whose <code>@id</code> is the moment URI, a sitemap, <code>llms.txt</code> and an RSL license file. Start from the <a href="/examples/1.0/manifest.json">manifest</a> and <a href="/examples/1.0/catalog.json">catalog</a> examples. A reference producer that writes these files is coming.</p>
+<p>A static site reaches L1 with files alone, and no server code. Publish a manifest at <code>/.well-known/arv</code>, a catalog at <code>/arv.json</code>, JSON-LD Clips on each video page whose <code>@id</code> is the moment URI, a sitemap, <code>llms.txt</code> and an RSL license file. Start from the <a href="/examples/1.0/manifest.json">manifest</a> and <a href="/examples/1.0/catalog.json">catalog</a> examples. The <a href="/quickstart">quick start</a> walks through each file in five minutes. A reference producer that writes them is coming.</p>
 </section>
 
 <section class="qa" id="youtube-creators">
@@ -87,7 +87,7 @@
 
 <section class="qa" id="who-implements">
 <h3>Who implements ARV today?</h3>
-<p>No outside implementations exist yet. ARV is Draft 1.0, proposed, and it stays "proposed" until an outside implementation passes the validator. We do not list supporters we do not have.</p>
+<p>No implementations exist yet. ARV is Draft 1.0, proposed, and it stays "proposed" until an outside implementation passes the validator. We do not list supporters we do not have. The <a href="/implementations">implementations page</a> lists entries as they arrive.</p>
 </section>
 
 <h2 id="governance">Governance and citation</h2>
@@ -99,7 +99,7 @@
 
 <section class="qa" id="join-or-support">
 <h3>How do I join or support ARV?</h3>
-<p>Email <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a> and tell us what you publish or build and what you need from the spec. A public GitHub organization and the W3C Community Group are coming, and you can join both when they open. Details are on the <a href="/governance#join">governance page</a>.</p>
+<p>Email <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a> and tell us what you publish or build and what you need from the spec. The spec and this site are public on <a href="https://github.com/sandersaar/agentreadyvideo-site">GitHub</a>, where you can open issues and pull requests. A W3C Community Group is proposed, and you can join it when it forms. Details are on the <a href="/governance#contribute">governance page</a>.</p>
 </section>
 
 <section class="qa" id="licenses">
@@ -109,13 +109,14 @@
 
 <section class="qa" id="how-to-cite">
 <h3>How do I cite ARV?</h3>
-<p>Cite it as: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 23 September 2026. https://agentreadyvideo.org/spec. Link to a section with its anchor, for example https://agentreadyvideo.org/spec#moment.</p>
+<p>Cite it as: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. https://agentreadyvideo.org/spec/1.0. Link to a section with its anchor, for example https://agentreadyvideo.org/spec/1.0#moment.</p>
 </section>
 
 <h2 id="more">More</h2>
 <ul>
-  <li><a href="/spec">Specification, Draft 1.0</a> with a glossary of key terms</li>
-  <li><a href="/adopt">Adopt ARV</a>: levels, validator and starters</li>
+  <li><a href="/spec/1.0">Specification, Draft 1.0</a> with a glossary of key terms</li>
+  <li><a href="/quickstart">Quick start</a>: level L1 on a static site in five minutes</li>
+  <li><a href="/changelog">Changelog</a>: dated changes to the spec and the process</li>
   <li><a href="/governance">Governance</a>: licenses, status and how to join</li>
   <li><a href="/llms-full.txt">llms-full.txt</a>: the full spec and this FAQ as plain text</li>
 </ul>

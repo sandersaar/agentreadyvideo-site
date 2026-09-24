@@ -1,33 +1,103 @@
 <!-- {"title": "Agent-Ready Video (ARV): the open standard for video in AI agents", "description": "Agent-Ready Video (ARV) is an open standard that makes video findable, callable and playable by AI agents, with rights and credit attached to every moment. Draft 1.0.", "path": "/", "out": "index.html"} -->
-<section class="hero">
-<h1>Agent-Ready Video (ARV)</h1>
-<p class="lede">Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. Follow it and crawlers can find your video, agents can call it, and any player can start it at the right second. The same moment, rights and credit travel with it at every step.</p>
-<p>ARV does not replace the standards you already use. It binds thirteen of them into one manifest, one validator and one badge, and adds only the five things video needs that nobody else defines.</p>
+<section class="hero" aria-labelledby="top">
+<h1 id="top">Agent-Ready Video (ARV)</h1>
+<p class="what">An open standard that lets AI agents find, cite and play the exact moment in a video, with rights and credit attached.</p>
+<p class="who">For video publishers and creators, the builders of AI assistants, and the teams that run players and video platforms.</p>
 <div class="cta">
-  <a class="btn primary" href="/spec">Read the spec</a>
-  <a class="btn" href="/adopt">Adopt ARV</a>
-  <a class="btn" href="/faq">FAQ</a>
+  <a class="btn primary" href="/spec/1.0">Read the spec</a>
+  <a class="btn" href="/quickstart">Quick start</a>
 </div>
+<dl class="proof" aria-label="Status at a glance">
+  <div><dt>Status</dt><dd>Draft 1.0, proposed</dd></div>
+  <div><dt>Implementations</dt><dd>None yet</dd></div>
+  <div><dt>Example objects</dt><dd>7, served as JSON</dd></div>
+  <div><dt>Open licenses</dt><dd>CSL 1.0, Apache-2.0, CC-BY-4.0</dd></div>
+  <div><dt>Last change</dt><dd><a href="/changelog">2026-09-24</a></dd></div>
+</dl>
 </section>
+
+<h2 id="how-it-works">How it works</h2>
+<p>One moment, named by its time range, travels through three steps. The same rights and credit go with it each time.</p>
+<figure class="diagram">
+<svg class="wide" viewBox="0 0 880 250" role="img" aria-labelledby="diagram-title diagram-desc">
+  <title id="diagram-title">A moment travels from a video to an agent to a player</title>
+  <desc id="diagram-desc">A video asset of 21 minutes 24 seconds with a highlighted moment from 12.4 to 31 seconds. The moment URI goes to an AI agent, which asks the origin to play it. A player then starts at 12.4 seconds.</desc>
+  <text class="d-text" x="16" y="36">Video asset</text>
+  <text class="d-sub" x="16" y="62">vid_8f2c · 21:24</text>
+  <rect class="d-box" x="16" y="84" width="284" height="56" rx="8"/>
+  <rect class="d-moment" x="40" y="84" width="72" height="56"/>
+  <line class="d-line" x1="16" y1="160" x2="300" y2="160" stroke-width="2"/>
+  <line class="d-arrow" x1="40" y1="152" x2="40" y2="168" stroke-width="2"/>
+  <line class="d-arrow" x1="112" y1="152" x2="112" y2="168" stroke-width="2"/>
+  <text class="d-sub" x="16" y="196">Moment 12.4 to 31 s</text>
+  <text class="d-sub" x="16" y="222">arv:vid_8f2c#t=12400,31000</text>
+  <path class="d-arrow" d="M312 112 H352" stroke-width="2"/>
+  <path class="d-head" d="M352 104 L366 112 L352 120 Z"/>
+  <rect class="d-box" x="376" y="72" width="220" height="80" rx="8"/>
+  <text class="d-text" x="486" y="108" text-anchor="middle">AI agent</text>
+  <text class="d-sub" x="486" y="134" text-anchor="middle">cites, checks rights</text>
+  <path class="d-arrow" d="M608 112 H646" stroke-width="2"/>
+  <path class="d-head" d="M646 104 L660 112 L646 120 Z"/>
+  <rect class="d-accent" x="670" y="72" width="200" height="80" rx="8"/>
+  <path class="d-on" d="M690 98 L690 126 L712 112 Z"/>
+  <text class="d-text d-on" x="796" y="108" text-anchor="middle">Player</text>
+  <text class="d-sub d-on" x="796" y="134" text-anchor="middle">starts 12.4 s</text>
+  <text class="d-sub" x="486" y="196" text-anchor="middle">no stream URL in search</text>
+  <text class="d-sub" x="770" y="196" text-anchor="middle">signed receipt</text>
+</svg>
+<svg class="narrow" viewBox="0 0 360 560" role="img" aria-labelledby="diagram-title-n diagram-desc-n">
+  <title id="diagram-title-n">A moment travels from a video to an agent to a player</title>
+  <desc id="diagram-desc-n">A video asset with a highlighted moment from 12.4 to 31 seconds. The moment URI goes to an AI agent, which asks the origin to play it. A player then starts at 12.4 seconds.</desc>
+  <text class="d-text" x="16" y="28">Video asset</text>
+  <text class="d-sub" x="16" y="54">vid_8f2c · 21:24</text>
+  <rect class="d-box" x="16" y="72" width="328" height="56" rx="8"/>
+  <rect class="d-moment" x="40" y="72" width="80" height="56"/>
+  <text class="d-sub" x="16" y="156">Moment 12.4 to 31 s</text>
+  <text class="d-sub" x="16" y="180">arv:vid_8f2c#t=12400,31000</text>
+  <path class="d-arrow" d="M180 196 V236" stroke-width="2"/>
+  <path class="d-head" d="M172 236 L180 250 L188 236 Z"/>
+  <rect class="d-box" x="16" y="260" width="328" height="80" rx="8"/>
+  <text class="d-text" x="180" y="296" text-anchor="middle">AI agent</text>
+  <text class="d-sub" x="180" y="322" text-anchor="middle">cites, checks rights</text>
+  <text class="d-sub" x="180" y="368" text-anchor="middle">no stream URL in search</text>
+  <path class="d-arrow" d="M180 380 V420" stroke-width="2"/>
+  <path class="d-head" d="M172 420 L180 434 L188 420 Z"/>
+  <rect class="d-accent" x="16" y="444" width="328" height="80" rx="8"/>
+  <path class="d-on" d="M40 470 L40 498 L62 484 Z"/>
+  <text class="d-text d-on" x="180" y="480" text-anchor="middle">Player</text>
+  <text class="d-sub d-on" x="180" y="506" text-anchor="middle">starts 12.4 s</text>
+  <text class="d-sub" x="180" y="552" text-anchor="middle">signed receipt</text>
+</svg>
+</figure>
+<ol class="steps">
+  <li><h3>Crawl time</h3><p>Crawlers read your manifest at <code>/.well-known/arv</code>, your catalog and the JSON-LD Clips on each video page. Every moment has a stable id anyone can recompute.</p></li>
+  <li><h3>Inference time</h3><p>An agent searches moments and checks rights through fixed MCP tools. Search results carry the moment, the evidence and the rights, and never a stream URL.</p></li>
+  <li><h3>Playback</h3><p>A play call returns a short-lived descriptor. Any player starts at the right second and keeps playing. A signed receipt records what was served.</p></li>
+</ol>
+
+<h2 id="example">A real example</h2>
+<p>These are the actual example objects from <a href="/schema/1.0/">Schema 1.0</a>, served as JSON at <code>/examples/1.0/</code>. Fetch them from a browser or a test.</p>
+{{tabs:ex:manifest,moment,playback-descriptor,usage-receipt}}
 
 <h2 id="who">Who it is for</h2>
 <div class="grid">
-  <div class="card"><span class="tag">Publish</span><h3>Publishers and creators</h3><p>You own video and want AI assistants to find it, play the right second and credit you. Start at L1 with JSON files on the site you already run.</p><p class="go"><a href="/adopt#levels">Start at L1</a></p></div>
-  <div class="card"><span class="tag">Build</span><h3>Agent and assistant builders</h3><p>You want to cite and play video moments without guessing at URLs or rights. Call one tool profile on any ARV origin.</p><p class="go"><a href="/spec#inference-time">Read the tool profile</a></p></div>
-  <div class="card"><span class="tag">Play</span><h3>Player and platform vendors</h3><p>You run a player or a video platform. One descriptor tells your player where to start. An adapter is under 100 lines.</p><p class="go"><a href="/spec#playback">Read the playback rules</a></p></div>
+  <div class="card"><span class="tag">Publish</span><h3>Publishers and creators</h3><p>You own video and want AI assistants to find it, play the right second and credit you. Start at L1 with JSON files on the site you already run.</p><p class="go"><a href="/quickstart">Five-minute quick start</a></p></div>
+  <div class="card"><span class="tag">Build</span><h3>Agent and assistant builders</h3><p>You want to cite and play video moments without guessing at URLs or rights. Call one tool profile on any ARV origin.</p><p class="go"><a href="/spec/1.0#inference-time">Read the tool profile</a></p></div>
+  <div class="card"><span class="tag">Play</span><h3>Player and platform vendors</h3><p>You run a player or a video platform. One descriptor tells your player where to start. An adapter is under 100 lines.</p><p class="go"><a href="/spec/1.0#playback">Read the playback rules</a></p></div>
 </div>
 
 <h2 id="adds">The five things ARV adds</h2>
+<p>ARV reuses thirteen standards as they are, including schema.org, Media Fragments, RSL, AIPREF and MCP. It adds only what video needs and nobody else defines.</p>
 <div class="grid">
-  <div class="card"><span class="tag">1</span><h3>Moments</h3><p>A moment is a time range on a video, named by its range: <code class="id">arv:vid_8f2c#t=12400,31000</code>. Anyone can recompute its id.</p></div>
-  <div class="card"><span class="tag">2</span><h3>Per-moment rights</h3><p>Each moment says what an agent may do with it: show it, quote up to N seconds, embed the source, and whether credit is required.</p></div>
-  <div class="card"><span class="tag">3</span><h3>Evidence</h3><p>Typed spans (transcript, on-screen text, shot caption, visual) that sit inside the moment and show why it answers the question.</p></div>
-  <div class="card"><span class="tag">4</span><h3>Player-neutral playback</h3><p>One descriptor that any player can use to start at the right second. Start time is the rule; the end is advisory.</p></div>
-  <div class="card"><span class="tag">5</span><h3>Usage receipts</h3><p>A signed record of which moment an agent served, to whom, under which rights policy, with the citation it showed.</p></div>
+  <div class="card"><span class="tag">1</span><h3>Moments</h3><p>A time range on a video, named by its range: <code class="id">arv:vid_8f2c#t=12400,31000</code>. Anyone can recompute its id.</p></div>
+  <div class="card"><span class="tag">2</span><h3>Per-moment rights</h3><p>What an agent may do with each moment: show it, quote up to N seconds, embed the source, and whether credit is required.</p></div>
+  <div class="card"><span class="tag">3</span><h3>Evidence</h3><p>Typed spans (transcript, on-screen text, shot caption, visual) inside the moment that show why it answers the question.</p></div>
+  <div class="card"><span class="tag">4</span><h3>Player-neutral playback</h3><p>One descriptor any player can use to start at the right second. Start time is the rule; the end is advisory.</p></div>
+  <div class="card"><span class="tag">5</span><h3>Usage receipts</h3><p>A signed record of which moment an agent served, under which rights policy, with the citation it showed.</p></div>
 </div>
 
 <h2 id="bindings">The thirteen standards it binds</h2>
-<p>ARV reuses each of these as it is. The right column is all ARV adds.</p>
+<p>ARV reuses each of these as it is. The third column is all ARV adds.</p>
 <div class="table-wrap bindings">
 <table>
 <thead><tr><th>Standard</th><th>What it covers</th><th>What ARV adds</th><th>When</th></tr></thead>
@@ -49,48 +119,34 @@
 </table>
 </div>
 
-<h2 id="levels">Three conformance levels</h2>
-<div class="grid">
-  <div class="card"><span class="tag">L1</span><h3>Crawl-readable</h3><p>Manifest, catalog, JSON-LD, sitemap, llms.txt and a license file. A static site can reach L1 with JSON alone.</p></div>
-  <div class="card"><span class="tag">L2</span><h3>Agent-callable</h3><p>L1 plus an MCP endpoint with the origin profile, moments that resolve, and short-lived playback tokens. No stream URLs in discovery.</p></div>
-  <div class="card"><span class="tag">L3</span><h3>Rights and ledger</h3><p>L2 plus published keys, signed receipts, and rights that hold under negative tests.</p></div>
-</div>
-<p>One validator checks all three and prints pass or fail per standard. A green run earns the badge "ARV L1", "L2" or "L3" with a dated report. <a href="/spec#conformance">The checks</a>.</p>
-
-<h2 id="adopt">Adopt it in three starters</h2>
-<div class="grid">
-  <div class="card"><span class="tag">Static site</span><h3>Reference producer <span class="coming">coming</span></h3><p>Transcript plus chapters in, a static L1 site out. No server needed.</p></div>
-  <div class="card"><span class="tag">Player</span><h3>Player adapter <span class="coming">coming</span></h3><p>Under 100 lines. Maps the descriptor's start time to your player's own API.</p></div>
-  <div class="card"><span class="tag">Agent</span><h3>MCP origin profile <span class="coming">coming</span></h3><p>Five tools with fixed names and shapes, so any agent can search, check rights and play.</p></div>
-</div>
-<p>Nobody has to implement rights or receipts to start. <a href="/adopt">How to adopt</a>.</p>
-
 <h2 id="status">Status and roadmap</h2>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Item</th><th>State</th></tr></thead>
 <tbody>
-<tr><td>Specification</td><td>Draft 1.0, proposed. Published 2026-09-23. It may change before 1.0 is final.</td></tr>
-<tr><td>Examples and llms.txt</td><td>Live now. <a href="/schema/1.0/">Seven example objects</a> are served as JSON.</td></tr>
+<tr><td>Specification</td><td>Draft 1.0, proposed. Published 2026-09-23 at <a href="/spec/1.0">/spec/1.0</a>. It may change before 1.0 is final. See the <a href="/changelog">changelog</a>.</td></tr>
+<tr><td>Quick start and examples</td><td>Live now. <a href="/quickstart">Reach L1 on a static site</a> with <a href="/schema/1.0/">seven example objects</a>.</td></tr>
 <tr><td>JSON Schemas</td><td>Coming. Each will live at a fixed, versioned URL.</td></tr>
 <tr><td>Validator and badge</td><td>Coming. One command checks L1, L2 and L3.</td></tr>
 <tr><td>Starters</td><td>Coming: reference producer, player adapter, MCP origin profile.</td></tr>
+<tr><td>URI scheme</td><td>Provisional registration of <code>arv:</code> requested from IANA on 2026-09-24.</td></tr>
 <tr><td>W3C Community Group</td><td>Proposed. Not yet formed.</td></tr>
-<tr><td>Outside implementers</td><td>None claimed. The draft says "proposed" until an outside implementation passes the validator.</td></tr>
+<tr><td>Implementations</td><td>None yet. The draft says "proposed" until an outside implementation passes the validator. <a href="/implementations">Implementations</a>.</td></tr>
 </tbody>
 </table>
 </div>
-<p>How features become required, and how to join: <a href="/governance">Governance</a>.</p>
 
-<h2 id="links">Links</h2>
-<ul>
-  <li><a href="/spec">Specification, Draft 1.0</a></li>
-  <li><a href="/schema/1.0/">Schema index and example objects</a></li>
-  <li><a href="/adopt">Adopt: levels, validator, starters</a></li>
-  <li><a href="/faq">FAQ: sixteen common questions, short answers</a></li>
-  <li><a href="/governance">Governance, licenses and how to join</a></li>
-  <li><a href="/llms.txt">llms.txt</a> and <a href="/llms-full.txt">llms-full.txt</a> for language models</li>
-</ul>
+<h2 id="faq">Common questions</h2>
+<div class="faq-teaser">
+<h3>Why not just use schema.org or MCP?</h3>
+<p>ARV does use them, as they are. Neither says how to name a moment so two systems agree on it, what an agent may do with it, or how to prove what was served. <a href="/faq#why-not-schema-org-or-mcp">Full answer</a>.</p>
+<h3>Does the player stop at the end of the moment?</h3>
+<p>No. ARV sets the start only. The player keeps playing so the viewer stays with the video. The end still governs rights and receipts. <a href="/faq#does-the-player-stop">Full answer</a>.</p>
+<h3>Who implements ARV today?</h3>
+<p>No implementations yet. ARV is Draft 1.0, proposed, and we do not list supporters we do not have. <a href="/faq#who-implements">Full answer</a>.</p>
+</div>
+<p><a href="/faq">All sixteen questions</a></p>
 
 <h2 id="cite">How to cite</h2>
-<p>Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. <a href="https://agentreadyvideo.org/spec">https://agentreadyvideo.org/spec</a></p>
+<p class="cite">{{cite}}</p>
+<p>Link to a section with its anchor, for example <code>https://agentreadyvideo.org/spec/1.0#moment</code>.</p>

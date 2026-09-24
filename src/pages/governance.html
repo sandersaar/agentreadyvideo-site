@@ -1,4 +1,4 @@
-<!-- {"title": "ARV Governance, licenses and how to join | Agent-Ready Video", "description": "Who maintains Agent-Ready Video (ARV), which licenses apply, how a feature becomes required, the status and roadmap, and how to join or support the work.", "path": "/governance", "out": "governance.html", "crumb": "Governance"} -->
+<!-- {"title": "ARV Governance, licenses and how to join | Agent-Ready Video", "description": "Who maintains Agent-Ready Video (ARV), which licenses apply, how a feature becomes required, the status and roadmap, and how to contribute.", "path": "/governance", "out": "governance.html", "crumb": "Governance"} -->
 <h1>Governance</h1>
 <p class="lede">ARV is maintained by AgentCDN with open contributions. The spec is a draft, and it says "proposed" until an outside implementation passes the validator.</p>
 
@@ -20,28 +20,30 @@
 
 <h2 id="required">How a feature becomes required</h2>
 <ol>
-  <li>Anyone proposes a change as an issue or pull request.</li>
-  <li>The change lands in the draft as optional (MAY or SHOULD), with schema changes and validator checks.</li>
-  <li>A feature becomes required (MUST) only after two independent implementations pass the validator for it.</li>
-  <li>Published schema versions never change. Breaking changes get a new version path.</li>
+  <li><strong>Propose.</strong> Anyone opens an issue or pull request on <a href="{{repo}}">GitHub</a> that says what the feature is, who needs it, and which existing standard it reuses.</li>
+  <li><strong>Draft as optional.</strong> The change lands in the draft as MAY or SHOULD, with example objects, schema changes and validator checks in the same change. It is listed in <a href="/spec/1.0#changes">spec section 6</a> and the <a href="/changelog">changelog</a>.</li>
+  <li><strong>Implement twice.</strong> Two independent implementations pass the validator for the feature. At least one is not the maintainer's.</li>
+  <li><strong>Make it required.</strong> Only then does the feature become MUST, in the next version, with a dated entry in the changelog.</li>
+  <li><strong>Freeze the version.</strong> Published schema versions and version URLs never change. A breaking change gets a new version path, such as <code>/spec/1.1</code> or <code>/schema/2.0/</code>.</li>
 </ol>
 
 <h2 id="status">Status and roadmap</h2>
 <ul>
-  <li><strong>Now:</strong> Draft 1.0, proposed, published 2026-09-23. Spec text, example objects and llms.txt are live.</li>
+  <li><strong>Now:</strong> Draft 1.0, proposed, published 2026-09-23 at <a href="/spec/1.0">/spec/1.0</a>. Spec text, example objects, the quick start and llms.txt are live. Every change is in the <a href="/changelog">changelog</a>.</li>
   <li><strong>Next:</strong> JSON Schemas at fixed URLs, the validator and badge, and three starters.</li>
   <li><strong>Proposed:</strong> a W3C Community Group. It is not formed yet. A Community Group can publish reports, but those are not W3C Recommendations.</li>
-  <li><strong>Planned:</strong> provisional registration of the <code>arv:</code> URI scheme with IANA.</li>
-  <li><strong>Not claimed:</strong> no outside implementations yet. The draft stays "proposed" until one passes the validator.</li>
+  <li><strong>Submitted:</strong> provisional registration of the <code>arv:</code> URI scheme with IANA, requested 2026-09-24.</li>
+  <li><strong>Filed:</strong> a schema.org guidance issue on Clip ids for video moments, <a href="https://github.com/schemaorg/schemaorg/issues/4923">schemaorg/schemaorg#4923</a>.</li>
+  <li><strong>Not claimed:</strong> no implementations yet (see <a href="/implementations">implementations</a>). The draft stays "proposed" until an outside one passes the validator.</li>
 </ul>
 
-<h2 id="join">How to join</h2>
-<ul>
-  <li><strong>GitHub organization</strong> <span class="coming">coming</span>. Spec text, schemas, validator and starters in the open, with issues and pull requests.</li>
-  <li><strong>W3C Community Group</strong> <span class="coming">proposed</span>. A free group where anyone with a W3C account can join, comment and back the work.</li>
-  <li><strong>Email</strong>, open now: <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a>. Tell us what you publish or build and what you need from the spec.</li>
-</ul>
+<h2 id="contribute">Contribute</h2>
+<div class="grid">
+  <div class="card"><span class="tag">Open now</span><h3>GitHub</h3><p>Spec text, examples and this site are public. File issues, suggest wording, or send a pull request.</p><p class="go"><a href="{{repo}}">github.com/sandersaar/agentreadyvideo-site</a></p></div>
+  <div class="card"><span class="tag">Proposed</span><h3>W3C Community Group</h3><p>A free group where anyone with a W3C account can join, comment and back the work. It is proposed and not yet formed. Email us to be told when it opens.</p></div>
+  <div class="card"><span class="tag">Open now</span><h3>Email</h3><p>Tell us what you publish or build and what you need from the spec.</p><p class="go"><a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p></div>
+</div>
 
 <h2 id="cite">How to cite</h2>
-<p class="cite">Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 23 September 2026. https://agentreadyvideo.org/spec</p>
+<p class="cite">Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 23 September 2026. https://agentreadyvideo.org/spec/1.0</p>
 <p>More answers on scope, rights and adoption: <a href="/faq">FAQ</a>.</p>

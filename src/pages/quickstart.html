@@ -1,0 +1,182 @@
+<!-- {"title": "ARV quick start: level L1 on a static site in five minutes | Agent-Ready Video", "description": "Reach Agent-Ready Video (ARV) level L1 on a static site in five minutes: write arv.json, add /.well-known/arv, add JSON-LD Clip ids, then llms.txt and an RSL license line.", "path": "/quickstart", "out": "quickstart.html", "crumb": "Quick start", "schema": "howto"} -->
+<h1>Quick start: L1 in five minutes</h1>
+<p class="lede">Level L1 means crawlers and agents can read your video moments. A static site gets there with five plain files and no server code. Replace <code>example.com</code> and the example video with your own.</p>
+
+<div class="callout">
+<p><strong>What you need:</strong> a site you can add files to, one video page, and one moment on that video (a start and end time in milliseconds).</p>
+<p><strong>What you get:</strong> a manifest, a catalog, JSON-LD Clips, <code>llms.txt</code> and an RSL license: every L1 surface in <a href="/spec/1.0#l1">spec section 5.1</a>.</p>
+</div>
+
+<h2 id="step-catalog">1. Write /arv.json</h2>
+<p>The catalog lists your videos (assets) and the moments on them. Name each moment by its range, <code>arv:{asset_id}#t={start_ms},{end_ms}</code>, and give it a deep link that opens the video at the start.</p>
+{{code file="/arv.json" lang="json"}}
+{
+  "arv": "1.0",
+  "origin": "https://example.com",
+  "manifest_url": "https://example.com/.well-known/arv",
+  "updated_at": "2026-09-23T12:00:00Z",
+  "assets": [
+    {
+      "arv": "1.0",
+      "id": "vid_8f2c",
+      "title": "Tuning a carburettor",
+      "duration_ms": 1284000,
+      "language": "en",
+      "page_url": "https://example.com/videos/carb",
+      "creator": { "id": "cr_12", "name": "Example Garage", "url": "https://example.com" }
+    }
+  ],
+  "moments": [
+    {
+      "arv": "1.0",
+      "id": "mom_rg2e4kdenkmkzilboihacumshn",
+      "moment_uri": "arv:vid_8f2c#t=12400,31000",
+      "moment_url": "https://example.com/videos/carb#t=12.4,31",
+      "asset_id": "vid_8f2c",
+      "start_ms": 12400,
+      "end_ms": 31000,
+      "snap": "sentence",
+      "title": "Setting the idle mixture screw",
+      "evidence_grade": "C"
+    }
+  ]
+}
+{{/code}}
+<p>The moment <code>id</code> is not random. It is <code>mom_</code> plus the first 26 characters of the lowercase base32 SHA-256 of <code>{origin}|{asset_id}|{start_ms}|{end_ms}</code>, so anyone can check it. Compute yours:</p>
+<div class="tabs" data-tabs>
+<div class="tablist" role="tablist" aria-label="Compute a moment id">
+<button type="button" role="tab" id="id-tab-node" aria-controls="id-node" aria-selected="true">Node.js</button>
+<button type="button" role="tab" id="id-tab-python" aria-controls="id-python" aria-selected="false" tabindex="-1">Python</button>
+</div>
+<div class="tabpanel" role="tabpanel" id="id-node" aria-labelledby="id-tab-node">
+{{code file="moment-id.mjs" lang="js"}}
+import { createHash } from "node:crypto";
+const momentId = (origin, assetId, startMs, endMs) => {
+  const hash = createHash("sha256").update(`${origin}|${assetId}|${startMs}|${endMs}`).digest();
+  const abc = "abcdefghijklmnopqrstuvwxyz234567";
+  let bits = "", out = "";
+  for (const byte of hash) bits += byte.toString(2).padStart(8, "0");
+  for (let i = 0; i + 5 <= bits.length; i += 5) out += abc[parseInt(bits.slice(i, i + 5), 2)];
+  return "mom_" + out.slice(0, 26);
+};
+console.log(momentId("https://example.com", "vid_8f2c", 12400, 31000));
+// mom_rg2e4kdenkmkzilboihacumshn
+{{/code}}
+</div>
+<div class="tabpanel" role="tabpanel" id="id-python" aria-labelledby="id-tab-python">
+{{code file="moment_id.py" lang="python"}}
+import base64, hashlib
+
+def moment_id(origin, asset_id, start_ms, end_ms):
+    raw = f"{origin}|{asset_id}|{start_ms}|{end_ms}".encode()
+    b32 = base64.b32encode(hashlib.sha256(raw).digest()).decode().rstrip("=").lower()
+    return "mom_" + b32[:26]
+
+print(moment_id("https://example.com", "vid_8f2c", 12400, 31000))
+# mom_rg2e4kdenkmkzilboihacumshn
+{{/code}}
+</div>
+</div>
+
+<h2 id="step-manifest">2. Add /.well-known/arv</h2>
+<p>The manifest is where validators and agents start. At L1 it names your level, your license and your catalogs. Leave out tool profiles and keys until you offer them.</p>
+{{code file="/.well-known/arv" lang="json"}}
+{
+  "arv": "1.0",
+  "conformance_level": "L1",
+  "publisher": { "name": "Example Garage", "contact": "agents@example.com" },
+  "license_url": "https://example.com/license.xml",
+  "catalogs": ["https://example.com/arv.json"],
+  "schema": "https://agentreadyvideo.org/schema/1.0/manifest.schema.json"
+}
+{{/code}}
+<p class="small muted">The file has no extension, so tell your host to serve it as <code>application/json</code>. On Vercel that is a <code>headers</code> entry in <code>vercel.json</code>; on Netlify, a <code>_headers</code> line; on GitHub Pages, keep a <code>.nojekyll</code> file so the <code>.well-known</code> folder is published.</p>
+
+<h2 id="step-jsonld">3. Add JSON-LD Clip ids to the video page</h2>
+<p>On each video page, describe the video as a schema.org <code>VideoObject</code> and each moment as a <code>Clip</code>. The Clip <code>@id</code> must equal the <code>moment_uri</code> and its <code>url</code> must equal the <code>moment_url</code>, so crawlers and agents name the same moment.</p>
+{{code file="/videos/carb (inside &lt;head&gt;)" lang="html"}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "@id": "https://example.com/videos/carb#video",
+  "name": "Tuning a carburettor",
+  "description": "How to set the idle mixture screw and check the idle speed.",
+  "thumbnailUrl": "https://example.com/poster/vid_8f2c.jpg",
+  "uploadDate": "2026-09-01",
+  "duration": "PT21M24S",
+  "hasPart": [
+    {
+      "@type": "Clip",
+      "@id": "arv:vid_8f2c#t=12400,31000",
+      "name": "Setting the idle mixture screw",
+      "startOffset": 12.4,
+      "endOffset": 31,
+      "url": "https://example.com/videos/carb#t=12.4,31"
+    }
+  ]
+}
+</script>
+{{/code}}
+<p class="small muted">Do not put a stream or media file URL in this markup. Discovery finds moments; only a playback call starts them (<a href="/spec/1.0#forbidden-fields">forbidden-field rule</a>). Emit a Clip only for moments whose rights allow segment display.</p>
+
+<h2 id="step-llms-rsl">4. Add llms.txt and an RSL line</h2>
+<p>Point language models at the manifest with <code>llms.txt</code>, then publish your license terms in RSL 1.0 and link them from <code>robots.txt</code> next to your sitemap.</p>
+{{code file="/llms.txt" lang="markdown"}}
+# Example Garage videos
+
+> How-to videos on engine repair. Agent-Ready Video (ARV) level L1.
+
+## What this is
+
+- Every moment is named arv:{asset_id}#t={start_ms},{end_ms} and listed in the catalog.
+
+## Manifest
+
+- https://example.com/.well-known/arv
+
+## Tools
+
+- None yet. Moments are listed in https://example.com/arv.json
+
+## License
+
+- https://example.com/license.xml (RSL 1.0). Credit Example Garage when you show a moment.
+
+## Example questions
+
+- How do I set the idle mixture screw on a carburettor?
+{{/code}}
+{{code file="/robots.txt" lang="text"}}
+User-agent: *
+Allow: /
+License: https://example.com/license.xml
+Sitemap: https://example.com/sitemap.xml
+{{/code}}
+{{code file="/license.xml" lang="xml"}}
+<rsl xmlns="https://rslstandard.org/rsl">
+  <content url="/">
+    <license>
+      <permits type="usage">search ai-input ai-index</permits>
+      <prohibits type="usage">ai-train</prohibits>
+      <payment type="attribution"/>
+    </license>
+  </content>
+</rsl>
+{{/code}}
+<p class="small muted">Use only RSL 1.0 usage words. Your sitemap must list the video page, and the page must return 200.</p>
+
+<h2 id="step-validate">5. Run the validator <span class="coming">coming</span></h2>
+<p>The validator is not released yet. When it ships, one command runs the eight L1 checks against your live site or a local folder and prints pass or fail per standard.</p>
+{{code file="Planned usage" lang="shell"}}
+npx arv validate https://example.com --level L1
+{{/code}}
+<p>Until then, check by hand: <code>/.well-known/arv</code> returns JSON, every moment has <code>start_ms &lt; end_ms</code> inside <code>duration_ms</code>, each <code>id</code> recomputes, and the Clip <code>@id</code> values match the catalog. The full list is in <a href="/spec/1.0#l1">spec section 5.1</a>.</p>
+
+<h2 id="next">Next steps</h2>
+<div class="grid">
+  <div class="card"><span class="tag">L2</span><h3>Make it callable</h3><p>Add an MCP endpoint with the origin profile and short-lived playback tokens.</p><p class="go"><a href="/spec/1.0#l2">L2 checks</a></p></div>
+  <div class="card"><span class="tag">L3</span><h3>Add rights and a ledger</h3><p>Publish keys, sign playback tokens and usage receipts, and pass the negative tests.</p><p class="go"><a href="/spec/1.0#l3">L3 checks</a></p></div>
+  <div class="card"><span class="tag">List it</span><h3>Tell us it works</h3><p>Built something that follows ARV? We list it on the implementations page once it passes.</p><p class="go"><a href="/implementations#list-yours">List yours</a></p></div>
+</div>
+<p>Stuck or something unclear? Open an issue on <a href="{{repo}}/issues">GitHub</a> or email <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a>.</p>

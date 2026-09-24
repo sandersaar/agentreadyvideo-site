@@ -13,5 +13,7 @@
   ],
   "poster": "https://example.com/poster/vid_8f2c.jpg",
   "captions": [{ "lang": "en", "url": "https://example.com/cc/vid_8f2c.vtt" }],
-  "token": { "ref": "ptk_91", "jws_kid": "k-2026-09", "expires_at": "2026-09-23T12:10:00Z", "scope": "segment" }
+  "token": { "ref": "ptk_91", "jws_kid": "k-2026-09", "expires_at": "2026-09-23T12:10:00Z", "scope": "segment" },
+  "entitlement": { "required": false, "kind": "none" },
+  "payment": { "required": false, "model": "free" }
 }
