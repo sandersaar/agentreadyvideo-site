@@ -1,4 +1,4 @@
-<!-- {"title":"ARV Specification","description":"Agent-Ready Video (ARV) Draft 1.0: purpose, scope, core objects, bindings to existing standards, and conformance levels.","path":"/spec","out":"spec.html"} -->
+<!-- {"title": "ARV Specification, Draft 1.0 | Agent-Ready Video", "description": "The Agent-Ready Video (ARV) specification, Draft 1.0: moments, per-moment rights, evidence, playback descriptors, usage receipts, bindings and conformance levels.", "path": "/spec", "out": "spec.html", "crumb": "Specification", "schema": "techarticle"} -->
 <h1>Agent-Ready Video (ARV) Specification</h1>
 <p class="lede">Draft 1.0, proposed. Published 2026-09-23. This draft may change before 1.0 is final.</p>
 
@@ -27,10 +27,34 @@
   </li>
   <li><a href="#conformance">Conformance levels and the badge</a></li>
 </ol>
+<p class="small">Also: <a href="#conventions">Conventions</a> · <a href="#glossary">Key terms</a> · <a href="#cite">How to cite</a> · <a href="/faq">FAQ</a></p>
 </nav>
 
-<h3 id="conventions">Conventions</h3>
+<h2 id="conventions">Conventions <a class="anchor" href="#conventions" aria-label="Link to Conventions">#</a></h2>
 <p>The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be read as described in RFC 2119. All times are integer milliseconds unless a field says otherwise. Every ARV object carries <code>"arv": "1.0"</code>. Examples use <code>example.com</code> and are not normative, except where a rule says so.</p>
+
+<h2 id="glossary">Key terms <a class="anchor" href="#glossary" aria-label="Link to Key terms">#</a></h2>
+<p>Short definitions. Section 3 holds the normative rules.</p>
+<dl class="glossary">
+  <dt id="term-moment">Moment</dt>
+  <dd>A time range on one video, named <code>arv:{asset_id}#t={start_ms},{end_ms}</code>. An agent may ask for any range. The origin snaps it to a clean edge and returns the range it applied. The snapped range is the identity.</dd>
+  <dt id="term-evidence">Evidence</dt>
+  <dd>Typed spans inside a moment (transcript, on-screen text, shot caption or visual) that show why the moment answers a question. Every span lies fully inside the range.</dd>
+  <dt id="term-rights-summary">Rights summary</dt>
+  <dd>The public rights for one moment: whether an agent may show it, embed the source or quote it, and for how long. It uses RSL 1.0 words where they exist.</dd>
+  <dt id="term-playback-descriptor">Playback descriptor</dt>
+  <dd>What a player needs to start a moment: a start time, optional cue points and sources. Only a playback call returns it. It never appears in search or other discovery.</dd>
+  <dt id="term-usage-receipt">Usage receipt</dt>
+  <dd>A signed record that an agent served a moment, under which rights policy, with the citation it showed. Anyone can check the signature against the origin's published keys.</dd>
+  <dt id="term-manifest">Manifest</dt>
+  <dd>The JSON file at <code>/.well-known/arv</code>. It names the conformance level, license, keys, tool profiles and catalogs. Validators and agents start here.</dd>
+  <dt id="term-conformance-level">Conformance level</dt>
+  <dd>How much of ARV an origin implements. L1 is crawl-readable, L2 is agent-callable, L3 adds rights and a ledger. A green validator run proves the level.</dd>
+  <dt id="term-asset">Asset</dt>
+  <dd>One video as an origin publishes it, with an id that is unique on that origin and a duration in milliseconds.</dd>
+  <dt id="term-catalog">Catalog</dt>
+  <dd>A JSON list of assets and their published moments, usually at <code>/arv.json</code>. The manifest points to it.</dd>
+</dl>
 
 <h2 id="purpose">1. Purpose and definition <a class="anchor" href="#purpose" aria-label="Link to section 1">#</a></h2>
 <p><strong>Agent-Ready Video (ARV) is a profile that binds existing web and agent standards into one way to make video usable by AI.</strong> A publisher that follows ARV is found by crawlers, called by agents and played by any player, with the same moment, rights and credit at each step.</p>
@@ -208,3 +232,8 @@
 
 <h3 id="badge">The badge</h3>
 <p>An SVG reading "ARV L1", "ARV L2" or "ARV L3" that links to a dated validator report. Reports expire after 90 days unless the validator is run again. Use of the name and badge follows a short conformance mark policy. The spec text itself may be forked under its license.</p>
+
+<h2 id="cite">How to cite <a class="anchor" href="#cite" aria-label="Link to How to cite">#</a></h2>
+<p>Canonical URL: <a href="https://agentreadyvideo.org/spec">https://agentreadyvideo.org/spec</a>. Link to a section with its anchor, for example <code>https://agentreadyvideo.org/spec#moment</code>.</p>
+<p class="cite">Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 23 September 2026. https://agentreadyvideo.org/spec</p>
+<p>Questions this page does not answer: see the <a href="/faq">FAQ</a>. To adopt it: <a href="/adopt">Adopt ARV</a>. To change it: <a href="/governance">Governance</a>.</p>

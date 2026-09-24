@@ -1,14 +1,21 @@
-<!-- {"title":"Agent-Ready Video (ARV)","description":"Agent-Ready Video (ARV) is an open profile that makes video findable, callable and playable by AI agents, with rights and credit attached to every moment.","path":"/","out":"index.html"} -->
+<!-- {"title": "Agent-Ready Video (ARV): the open standard for video in AI agents", "description": "Agent-Ready Video (ARV) is an open standard that makes video findable, callable and playable by AI agents, with rights and credit attached to every moment. Draft 1.0.", "path": "/", "out": "index.html"} -->
 <section class="hero">
 <h1>Agent-Ready Video (ARV)</h1>
-<p class="lede">ARV is an open profile that makes video usable by AI. Follow it and crawlers can find your video, agents can call it, and any player can start it at the right second. The same moment, rights and credit travel with it at every step.</p>
+<p class="lede">Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. Follow it and crawlers can find your video, agents can call it, and any player can start it at the right second. The same moment, rights and credit travel with it at every step.</p>
 <p>ARV does not replace the standards you already use. It binds thirteen of them into one manifest, one validator and one badge, and adds only the five things video needs that nobody else defines.</p>
 <div class="cta">
   <a class="btn primary" href="/spec">Read the spec</a>
   <a class="btn" href="/adopt">Adopt ARV</a>
-  <a class="btn" href="/schema/1.0/">Schema and examples</a>
+  <a class="btn" href="/faq">FAQ</a>
 </div>
 </section>
+
+<h2 id="who">Who it is for</h2>
+<div class="grid">
+  <div class="card"><span class="tag">Publish</span><h3>Publishers and creators</h3><p>You own video and want AI assistants to find it, play the right second and credit you. Start at L1 with JSON files on the site you already run.</p><p class="go"><a href="/adopt#levels">Start at L1</a></p></div>
+  <div class="card"><span class="tag">Build</span><h3>Agent and assistant builders</h3><p>You want to cite and play video moments without guessing at URLs or rights. Call one tool profile on any ARV origin.</p><p class="go"><a href="/spec#inference-time">Read the tool profile</a></p></div>
+  <div class="card"><span class="tag">Play</span><h3>Player and platform vendors</h3><p>You run a player or a video platform. One descriptor tells your player where to start. An adapter is under 100 lines.</p><p class="go"><a href="/spec#playback">Read the playback rules</a></p></div>
+</div>
 
 <h2 id="adds">The five things ARV adds</h2>
 <div class="grid">
@@ -58,11 +65,32 @@
 </div>
 <p>Nobody has to implement rights or receipts to start. <a href="/adopt">How to adopt</a>.</p>
 
+<h2 id="status">Status and roadmap</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Item</th><th>State</th></tr></thead>
+<tbody>
+<tr><td>Specification</td><td>Draft 1.0, proposed. Published 2026-09-23. It may change before 1.0 is final.</td></tr>
+<tr><td>Examples and llms.txt</td><td>Live now. <a href="/schema/1.0/">Seven example objects</a> are served as JSON.</td></tr>
+<tr><td>JSON Schemas</td><td>Coming. Each will live at a fixed, versioned URL.</td></tr>
+<tr><td>Validator and badge</td><td>Coming. One command checks L1, L2 and L3.</td></tr>
+<tr><td>Starters</td><td>Coming: reference producer, player adapter, MCP origin profile.</td></tr>
+<tr><td>W3C Community Group</td><td>Proposed. Not yet formed.</td></tr>
+<tr><td>Outside implementers</td><td>None claimed. The draft says "proposed" until an outside implementation passes the validator.</td></tr>
+</tbody>
+</table>
+</div>
+<p>How features become required, and how to join: <a href="/governance">Governance</a>.</p>
+
 <h2 id="links">Links</h2>
 <ul>
   <li><a href="/spec">Specification, Draft 1.0</a></li>
   <li><a href="/schema/1.0/">Schema index and example objects</a></li>
   <li><a href="/adopt">Adopt: levels, validator, starters</a></li>
+  <li><a href="/faq">FAQ: sixteen common questions, short answers</a></li>
   <li><a href="/governance">Governance, licenses and how to join</a></li>
-  <li><a href="/llms.txt">llms.txt</a> for language models</li>
+  <li><a href="/llms.txt">llms.txt</a> and <a href="/llms-full.txt">llms-full.txt</a> for language models</li>
 </ul>
+
+<h2 id="cite">How to cite</h2>
+<p>Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. <a href="https://agentreadyvideo.org/spec">https://agentreadyvideo.org/spec</a></p>

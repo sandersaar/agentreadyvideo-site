@@ -1,0 +1,121 @@
+<!-- {"title":"ARV FAQ: Agent-Ready Video questions answered","description":"Short answers about Agent-Ready Video (ARV): what it is, moments, playback, rights and receipts, RSL and AIPREF, conformance levels, licenses, W3C status and how to cite it.","path":"/faq","out":"faq.html","crumb":"FAQ","schema":"faq"} -->
+<h1>Agent-Ready Video (ARV) FAQ</h1>
+<p class="lede">Sixteen questions people ask about ARV, with answers you can quote. The <a href="/spec">spec</a> is the source of truth where the two differ.</p>
+
+<nav class="toc" aria-label="Questions">
+<strong>Questions</strong>
+<ol>
+  <li><a href="#what-is-arv">What is Agent-Ready Video (ARV)?</a></li>
+  <li><a href="#why-not-schema-org-or-mcp">Why not just use schema.org or MCP?</a></li>
+  <li><a href="#what-is-a-moment">What is a moment, and who decides where it starts and ends?</a></li>
+  <li><a href="#does-the-player-stop">Does the player stop at the end of the moment?</a></li>
+  <li><a href="#what-an-assistant-sees">What does an AI assistant see?</a></li>
+  <li><a href="#rsl-and-aipref">How does ARV relate to RSL and AIPREF?</a></li>
+  <li><a href="#rights-and-receipts">How do rights and receipts work?</a></li>
+  <li><a href="#three-levels">What do the three conformance levels mean?</a></li>
+  <li><a href="#static-site-l1">How does a static site reach L1?</a></li>
+  <li><a href="#youtube-creators">What changes for YouTube creators?</a></li>
+  <li><a href="#requires-agentcdn">Does ARV require AgentCDN?</a></li>
+  <li><a href="#who-implements">Who implements ARV today?</a></li>
+  <li><a href="#w3c-standard">Is ARV a W3C standard?</a></li>
+  <li><a href="#join-or-support">How do I join or support ARV?</a></li>
+  <li><a href="#licenses">Which licenses apply?</a></li>
+  <li><a href="#how-to-cite">How do I cite ARV?</a></li>
+</ol>
+</nav>
+
+<h2 id="basics">The basics</h2>
+
+<section class="qa" id="what-is-arv">
+<h3>What is Agent-Ready Video (ARV)?</h3>
+<p>Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. It binds existing standards such as schema.org, Media Fragments, RSL, AIPREF and MCP into one manifest, one validator and one badge. It adds five things video needs: range-addressed moments, per-moment rights, typed evidence, player-neutral playback and signed usage receipts. The current version is Draft 1.0, proposed, maintained by AgentCDN.</p>
+</section>
+
+<section class="qa" id="why-not-schema-org-or-mcp">
+<h3>Why not just use schema.org or MCP?</h3>
+<p>ARV does use schema.org and MCP, as they are. Neither one says how to name a moment so two systems agree on it, what an agent may do with that moment, or how to prove what was served. schema.org describes a video and its clips for search. MCP lets an agent call tools. ARV fixes the tool names, ties the Clip <code>@id</code> to the moment, and adds rights and receipts on top.</p>
+</section>
+
+<section class="qa" id="what-is-a-moment">
+<h3>What is a moment, and who decides where it starts and ends?</h3>
+<p>A moment is a time range on one video, named <code>arv:{asset_id}#t={start_ms},{end_ms}</code>. The agent picks any range it wants. The origin snaps that range to a clean edge (a shot, sentence, word or silence, or a rights cap) and returns the range it applied. The snapped range is the moment's identity, so two producers that snap to the same range name the same moment. Chapters and other published moments are only suggestions.</p>
+</section>
+
+<section class="qa" id="does-the-player-stop">
+<h3>Does the player stop at the end of the moment?</h3>
+<p>No. ARV playback sets the start only. The player starts at <code>start_ms</code> and keeps playing, so the viewer stays with the video. The end is advisory for players. It still governs rights, quote limits and receipts.</p>
+</section>
+
+<section class="qa" id="what-an-assistant-sees">
+<h3>What does an AI assistant see?</h3>
+<p>In search and other discovery, an assistant sees the moment: its URI, title, time range, evidence spans, rights summary and a deep link that opens the video at the start. It never sees a stream URL there. To play the moment, it calls <code>play_moment</code> and gets a playback descriptor with a start time and a token that expires within 15 minutes. Crawlers see the same moments as schema.org Clips in the page's JSON-LD.</p>
+</section>
+
+<h2 id="rights">Rights and receipts</h2>
+
+<section class="qa" id="rsl-and-aipref">
+<h3>How does ARV relate to RSL and AIPREF?</h3>
+<p>ARV uses RSL 1.0 for license terms and IETF AIPREF for AI usage preferences, and it keeps them in agreement. Each moment's rights summary uses RSL words where RSL has them, and adds video terms (segment display, source embed, quote limits) where it does not. The AIPREF <code>Content-Usage</code> header is derived from the same rights record, so the two never disagree. AIPREF is still an IETF draft, so ARV cites it as informative.</p>
+</section>
+
+<section class="qa" id="rights-and-receipts">
+<h3>How do rights and receipts work?</h3>
+<p>Every moment carries a public rights summary that says what an agent may do with it. Before playback, the origin checks those rights again and only then returns a short-lived token. After an agent serves a moment, it calls <code>record_usage</code> and gets a usage receipt: a signed record of which moment was served, under which policy version, with the citation shown. Anyone can verify the signature with the origin's published keys. Receipts are part of level L3.</p>
+</section>
+
+<h2 id="adoption">Adopting ARV</h2>
+
+<section class="qa" id="three-levels">
+<h3>What do the three conformance levels mean?</h3>
+<p>L1 is crawl-readable: a manifest, a catalog, JSON-LD, a sitemap, llms.txt and a license file. L2 is agent-callable: L1 plus an MCP endpoint with the ARV tool profile and short-lived playback tokens. L3 adds rights and a ledger: published keys, signed receipts and rights that hold under negative tests. A green validator run earns the badge for a level.</p>
+</section>
+
+<section class="qa" id="static-site-l1">
+<h3>How does a static site reach L1?</h3>
+<p>A static site reaches L1 with files alone, and no server code. Publish a manifest at <code>/.well-known/arv</code>, a catalog at <code>/arv.json</code>, JSON-LD Clips on each video page whose <code>@id</code> is the moment URI, a sitemap, <code>llms.txt</code> and an RSL license file. Start from the <a href="/examples/1.0/manifest.json">manifest</a> and <a href="/examples/1.0/catalog.json">catalog</a> examples. A reference producer that writes these files is coming.</p>
+</section>
+
+<section class="qa" id="youtube-creators">
+<h3>What changes for YouTube creators?</h3>
+<p>Nothing changes on YouTube itself, and YouTube does not need to adopt ARV. A creator can publish an ARV catalog on their own site that names moments on their YouTube videos. Each moment links to the YouTube watch page at the right second, and playback uses the YouTube embed with its start parameter, so viewers watch in the YouTube player. Assistants then find and cite the creator's exact moments with credit attached.</p>
+</section>
+
+<section class="qa" id="requires-agentcdn">
+<h3>Does ARV require AgentCDN?</h3>
+<p>No. ARV is an open standard that any site, platform or player can implement without AgentCDN. AgentCDN maintains the spec, schemas and validator. The spec text may be forked under its license, and the code is Apache-2.0.</p>
+</section>
+
+<section class="qa" id="who-implements">
+<h3>Who implements ARV today?</h3>
+<p>No outside implementations exist yet. ARV is Draft 1.0, proposed, and it stays "proposed" until an outside implementation passes the validator. We do not list supporters we do not have.</p>
+</section>
+
+<h2 id="governance">Governance and citation</h2>
+
+<section class="qa" id="w3c-standard">
+<h3>Is ARV a W3C standard?</h3>
+<p>No. ARV is a draft maintained by AgentCDN. A W3C Community Group for ARV is proposed but not formed. Community Groups are open to anyone with a W3C account, and their reports are not W3C Recommendations.</p>
+</section>
+
+<section class="qa" id="join-or-support">
+<h3>How do I join or support ARV?</h3>
+<p>Email <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a> and tell us what you publish or build and what you need from the spec. A public GitHub organization and the W3C Community Group are coming, and you can join both when they open. Details are on the <a href="/governance#join">governance page</a>.</p>
+</section>
+
+<section class="qa" id="licenses">
+<h3>Which licenses apply?</h3>
+<p>The spec text is under the Community Specification License 1.0. Code (schemas, validator, adapters and the reference producer) is Apache-2.0. Docs are CC-BY-4.0. You may say your site conforms at a level only when a current validator report shows it.</p>
+</section>
+
+<section class="qa" id="how-to-cite">
+<h3>How do I cite ARV?</h3>
+<p>Cite it as: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 23 September 2026. https://agentreadyvideo.org/spec. Link to a section with its anchor, for example https://agentreadyvideo.org/spec#moment.</p>
+</section>
+
+<h2 id="more">More</h2>
+<ul>
+  <li><a href="/spec">Specification, Draft 1.0</a> with a glossary of key terms</li>
+  <li><a href="/adopt">Adopt ARV</a>: levels, validator and starters</li>
+  <li><a href="/governance">Governance</a>: licenses, status and how to join</li>
+  <li><a href="/llms-full.txt">llms-full.txt</a>: the full spec and this FAQ as plain text</li>
+</ul>

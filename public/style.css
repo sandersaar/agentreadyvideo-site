@@ -122,3 +122,10 @@ footer.site { border-top: 1px solid var(--border); background: var(--surface); }
   header.site { position: static; }
   html { scroll-padding-top: 16px; }
 }
+.card p.go { margin: 10px 0 0; font-size: 15px; font-weight: 550; }
+dl.glossary { margin: 16px 0 24px; max-width: 72ch; }
+dl.glossary dt { font-weight: 650; margin-top: 14px; }
+dl.glossary dd { margin: 2px 0 0; color: var(--muted); }
+section.qa { margin: 0 0 8px; }
+section.qa h3 { margin-top: 28px; }
+.cite { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; max-width: 72ch; }

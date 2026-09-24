@@ -1,6 +1,6 @@
 # Agent-Ready Video (ARV)
 
-> ARV is an open profile that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Status: Draft 1.0, proposed. Maintained by AgentCDN.
+> Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Status: Draft 1.0, proposed. Maintained by AgentCDN.
 
 ## What this is
 
@@ -14,22 +14,26 @@
 - A publisher serves its manifest at `/.well-known/arv`. Example: https://agentreadyvideo.org/examples/1.0/manifest.json
 - Spec section for the manifest: https://agentreadyvideo.org/spec#manifest
 
-## Spec and schema
+## Pages
 
-- [Specification, Draft 1.0](https://agentreadyvideo.org/spec): purpose, scope, core objects, bindings, conformance.
+- [Home](https://agentreadyvideo.org/): what ARV is, the five things it adds, who it is for, status and roadmap.
+- [Specification, Draft 1.0](https://agentreadyvideo.org/spec): purpose, scope, key terms, core objects, bindings, conformance, how to cite.
+- [FAQ](https://agentreadyvideo.org/faq): sixteen common questions with short, quotable answers.
+- [Adopt ARV](https://agentreadyvideo.org/adopt): pick a level, check it with the validator (coming), start from a starter (coming).
 - [Schema index](https://agentreadyvideo.org/schema/1.0/): seven objects. Schema files will live at https://agentreadyvideo.org/schema/1.0/<name>.schema.json (not published yet).
+- [Governance](https://agentreadyvideo.org/governance): maintainer, licenses, how a feature becomes required, status and roadmap, how to join.
+- [llms-full.txt](https://agentreadyvideo.org/llms-full.txt): the full spec text and the FAQ as plain Markdown.
 - Examples: [asset](https://agentreadyvideo.org/examples/1.0/asset.json), [moment](https://agentreadyvideo.org/examples/1.0/moment.json), [rights-summary](https://agentreadyvideo.org/examples/1.0/rights-summary.json), [playback-descriptor](https://agentreadyvideo.org/examples/1.0/playback-descriptor.json), [usage-receipt](https://agentreadyvideo.org/examples/1.0/usage-receipt.json), [manifest](https://agentreadyvideo.org/examples/1.0/manifest.json), [catalog](https://agentreadyvideo.org/examples/1.0/catalog.json)
 
 ## Tools
 
 - MCP origin profile: `search_moments`, `get_moment`, `get_rights`, `play_moment`, `record_usage`, plus `search` and `fetch`.
 - WebMCP page profile: `search_this_catalog`, `get_moment_context`, `play_moment`, optional `ask_this_video`.
-- [Adopt ARV](https://agentreadyvideo.org/adopt): levels, validator (coming), starters (coming).
 
 ## License
 
 - Spec text: Community Specification License 1.0. Code: Apache-2.0. Docs: CC-BY-4.0.
-- [Governance](https://agentreadyvideo.org/governance): maintainer, how a feature becomes required, how to join.
+- Suggested citation: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. https://agentreadyvideo.org/spec
 - Contact: team@agentreadyvideo.org
 
 ## Example questions
@@ -38,3 +42,5 @@
 - How do I name a moment in a video so agents can cite it?
 - What does a site need to reach ARV L1?
 - Why must search results never include a stream URL?
+- Does the player stop at the end of a moment? (No. Start only: https://agentreadyvideo.org/faq#does-the-player-stop)
+- Is ARV a W3C standard? (No. A Community Group is proposed: https://agentreadyvideo.org/faq#w3c-standard)

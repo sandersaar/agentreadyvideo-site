@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#111413"/>
+  <rect x="0" y="0" width="12" height="630" fill="#6fd1b5"/>
+  <rect x="96" y="120" width="112" height="56" rx="10" fill="#6fd1b5"/>
+  <text x="152" y="159" text-anchor="middle" font-family="Menlo, monospace" font-size="28" font-weight="700" fill="#111413" letter-spacing="2">ARV</text>
+  <text x="96" y="300" font-family="Inter, -apple-system, Helvetica, Arial, sans-serif" font-size="84" font-weight="700" fill="#e8ebe9">Agent-Ready Video</text>
+  <text x="96" y="380" font-family="Inter, -apple-system, Helvetica, Arial, sans-serif" font-size="38" fill="#a3aba7">The open standard that makes video usable by AI agents.</text>
+  <text x="96" y="530" font-family="Menlo, monospace" font-size="28" fill="#f2c26b">Draft 1.0, proposed</text>
+  <text x="1104" y="530" text-anchor="end" font-family="Menlo, monospace" font-size="28" fill="#a3aba7">agentreadyvideo.org</text>
+</svg>
