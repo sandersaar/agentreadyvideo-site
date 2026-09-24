@@ -67,8 +67,12 @@ button.theme:hover { color: var(--text); }
 button.menu-toggle { display: none; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); font: 500 var(--fs-14)/1 inherit; cursor: pointer; }
 button.menu-toggle:hover { background: var(--surface-2); }
 @media (max-width: 899px) {
-  .bar { flex-wrap: wrap; }
-  .brand { flex: 1 1 auto; }
+  .bar { flex-wrap: wrap; gap: 8px 12px; }
+  .brand { flex: 1 1 0; min-width: 0; }
+  .brand .brand-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-actions { margin-left: auto; flex: 0 0 auto; }
+  html.js .bar-actions { order: 2; }
+  html.js nav.primary { order: 3; }
   html.js button.menu-toggle { display: inline-flex; }
   html.js nav.primary { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 2px; margin: 4px 0 0; padding-top: 8px; border-top: 1px solid var(--border); }
   html.js nav.primary.open { display: flex; }
@@ -76,6 +80,7 @@ button.menu-toggle:hover { background: var(--surface-2); }
   nav.primary a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--accent); border-radius: 0; }
   html:not(.js) nav.primary { width: 100%; }
 }
+@media (max-width: 419px) { .brand .brand-name { display: none; } }
 
 /* ---------- main and type ---------- */
 main.wrap { padding-top: 32px; padding-bottom: 64px; }
