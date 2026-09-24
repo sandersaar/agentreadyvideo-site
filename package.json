@@ -1,0 +1,13 @@
+{
+  "name": "agentreadyvideo-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public home of the Agent-Ready Video (ARV) standard.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs && npx --yes serve dist"
+  },
+  "engines": { "node": ">=18" }
+}

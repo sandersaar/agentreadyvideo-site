@@ -1,0 +1,17 @@
+{
+  "arv": "1.0",
+  "moment_uri": "arv:vid_8f2c#t=12400,31000",
+  "start_ms": 12400,
+  "cue_points": [
+    { "start_ms": 12400, "label": "Find the idle screw" },
+    { "start_ms": 47000, "label": "Check the idle speed" }
+  ],
+  "end_ms_advisory": 31000,
+  "sources": [
+    { "kind": "hls", "provider": "example-cdn", "token_ref": "ptk_91", "start_ms": 12400 },
+    { "kind": "embed", "provider": "youtube", "embed_url": "https://www.youtube.com/embed/abc", "start_param": "start=12" }
+  ],
+  "poster": "https://example.com/poster/vid_8f2c.jpg",
+  "captions": [{ "lang": "en", "url": "https://example.com/cc/vid_8f2c.vtt" }],
+  "token": { "ref": "ptk_91", "jws_kid": "k-2026-09", "expires_at": "2026-09-23T12:10:00Z", "scope": "segment" }
+}

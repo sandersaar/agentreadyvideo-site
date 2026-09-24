@@ -1,0 +1,15 @@
+{
+  "arv": "1.0",
+  "conformance_level": "L2",
+  "publisher": { "name": "Example Garage", "contact": "agents@example.com" },
+  "license_url": "https://example.com/license.xml",
+  "jwks_url": "https://example.com/.well-known/jwks.json",
+  "catalogs": ["https://example.com/arv.json"],
+  "tool_profiles": {
+    "mcp_origin": { "url": "https://example.com/mcp", "version": "1.0" },
+    "webmcp_page": { "adapter": "https://example.com/webmcp/v1/adapter.js", "version": "1.0" },
+    "nlweb": { "ask": "https://example.com/ask" },
+    "a2a": { "card": "https://example.com/.well-known/agent-card.json" }
+  },
+  "schema": "https://agentreadyvideo.org/schema/1.0/manifest.schema.json"
+}

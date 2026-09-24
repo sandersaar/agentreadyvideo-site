@@ -1,0 +1,40 @@
+# Agent-Ready Video (ARV)
+
+> ARV is an open profile that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Status: Draft 1.0, proposed. Maintained by AgentCDN.
+
+## What this is
+
+- A moment is a time range on a video, named `arv:{asset_id}#t={start_ms},{end_ms}`. Its id is recomputable from the origin and the range.
+- Discovery (search, ask, JSON-LD, feeds, sitemaps) never carries stream URLs. Only a playback call returns a short-lived token.
+- Players start at `start_ms` and may use cue points. The end is advisory; players do not stop there by default.
+- Three conformance levels: L1 crawl-readable, L2 agent-callable, L3 rights and ledger.
+
+## Manifest
+
+- A publisher serves its manifest at `/.well-known/arv`. Example: https://agentreadyvideo.org/examples/1.0/manifest.json
+- Spec section for the manifest: https://agentreadyvideo.org/spec#manifest
+
+## Spec and schema
+
+- [Specification, Draft 1.0](https://agentreadyvideo.org/spec): purpose, scope, core objects, bindings, conformance.
+- [Schema index](https://agentreadyvideo.org/schema/1.0/): seven objects. Schema files will live at https://agentreadyvideo.org/schema/1.0/<name>.schema.json (not published yet).
+- Examples: [asset](https://agentreadyvideo.org/examples/1.0/asset.json), [moment](https://agentreadyvideo.org/examples/1.0/moment.json), [rights-summary](https://agentreadyvideo.org/examples/1.0/rights-summary.json), [playback-descriptor](https://agentreadyvideo.org/examples/1.0/playback-descriptor.json), [usage-receipt](https://agentreadyvideo.org/examples/1.0/usage-receipt.json), [manifest](https://agentreadyvideo.org/examples/1.0/manifest.json), [catalog](https://agentreadyvideo.org/examples/1.0/catalog.json)
+
+## Tools
+
+- MCP origin profile: `search_moments`, `get_moment`, `get_rights`, `play_moment`, `record_usage`, plus `search` and `fetch`.
+- WebMCP page profile: `search_this_catalog`, `get_moment_context`, `play_moment`, optional `ask_this_video`.
+- [Adopt ARV](https://agentreadyvideo.org/adopt): levels, validator (coming), starters (coming).
+
+## License
+
+- Spec text: Community Specification License 1.0. Code: Apache-2.0. Docs: CC-BY-4.0.
+- [Governance](https://agentreadyvideo.org/governance): maintainer, how a feature becomes required, how to join.
+- Contact: team@agentreadyvideo.org
+
+## Example questions
+
+- What is Agent-Ready Video?
+- How do I name a moment in a video so agents can cite it?
+- What does a site need to reach ARV L1?
+- Why must search results never include a stream URL?

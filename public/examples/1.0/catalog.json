@@ -1,0 +1,31 @@
+{
+  "arv": "1.0",
+  "origin": "https://example.com",
+  "manifest_url": "https://example.com/.well-known/arv",
+  "updated_at": "2026-09-23T12:00:00Z",
+  "assets": [
+    {
+      "arv": "1.0",
+      "id": "vid_8f2c",
+      "title": "Tuning a carburettor",
+      "duration_ms": 1284000,
+      "language": "en",
+      "page_url": "https://example.com/videos/carb",
+      "creator": { "id": "cr_12", "name": "Example Garage", "url": "https://example.com" }
+    }
+  ],
+  "moments": [
+    {
+      "arv": "1.0",
+      "id": "mom_rg2e4kdenkmkzilboihacumshn",
+      "moment_uri": "arv:vid_8f2c#t=12400,31000",
+      "moment_url": "https://example.com/videos/carb#t=12.4,31",
+      "asset_id": "vid_8f2c",
+      "start_ms": 12400,
+      "end_ms": 31000,
+      "snap": "sentence",
+      "title": "Setting the idle mixture screw",
+      "evidence_grade": "C"
+    }
+  ]
+}

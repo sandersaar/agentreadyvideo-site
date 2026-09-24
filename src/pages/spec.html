@@ -1,0 +1,210 @@
+<!-- {"title":"ARV Specification","description":"Agent-Ready Video (ARV) Draft 1.0: purpose, scope, core objects, bindings to existing standards, and conformance levels.","path":"/spec","out":"spec.html"} -->
+<h1>Agent-Ready Video (ARV) Specification</h1>
+<p class="lede">Draft 1.0, proposed. Published 2026-09-23. This draft may change before 1.0 is final.</p>
+
+<nav class="toc" aria-label="Contents">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#purpose">Purpose and definition</a></li>
+  <li><a href="#scope">Scope</a></li>
+  <li><a href="#objects">Core objects</a>
+    <ol>
+      <li><a href="#asset">Asset</a></li>
+      <li><a href="#moment">Moment</a></li>
+      <li><a href="#rights-summary">RightsSummary</a></li>
+      <li><a href="#playback-descriptor">PlaybackDescriptor</a></li>
+      <li><a href="#usage-receipt">UsageReceipt</a></li>
+      <li><a href="#manifest">Manifest</a></li>
+      <li><a href="#catalog">Catalog</a></li>
+    </ol>
+  </li>
+  <li><a href="#bindings">Bindings</a>
+    <ol>
+      <li><a href="#crawl-time">Crawl time</a></li>
+      <li><a href="#inference-time">Inference time</a></li>
+      <li><a href="#playback">Playback</a></li>
+    </ol>
+  </li>
+  <li><a href="#conformance">Conformance levels and the badge</a></li>
+</ol>
+</nav>
+
+<h3 id="conventions">Conventions</h3>
+<p>The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are to be read as described in RFC 2119. All times are integer milliseconds unless a field says otherwise. Every ARV object carries <code>"arv": "1.0"</code>. Examples use <code>example.com</code> and are not normative, except where a rule says so.</p>
+
+<h2 id="purpose">1. Purpose and definition <a class="anchor" href="#purpose" aria-label="Link to section 1">#</a></h2>
+<p><strong>Agent-Ready Video (ARV) is a profile that binds existing web and agent standards into one way to make video usable by AI.</strong> A publisher that follows ARV is found by crawlers, called by agents and played by any player, with the same moment, rights and credit at each step.</p>
+<p>ARV reuses schema.org, video sitemaps, Media Fragments, RSL, AIPREF, MCP, WebMCP, NLWeb and A2A as they are. It adds only what video needs and no other standard defines:</p>
+<ol>
+  <li>Range-addressed moments.</li>
+  <li>Per-moment rights.</li>
+  <li>Typed evidence.</li>
+  <li>Signed, player-neutral playback.</li>
+  <li>Signed usage receipts.</li>
+</ol>
+<p>ARV packages this as three things:</p>
+<ul>
+  <li><strong>One manifest.</strong> <code>/.well-known/arv</code> names the conformance level, the license, the keys, the tool profiles and the catalogs. Every other surface is reachable from it.</li>
+  <li><strong>One validator.</strong> <code>arv validate https://example.com</code> runs every check in <a href="#conformance">section 5</a> and prints pass or fail per standard.</li>
+  <li><strong>One badge.</strong> "ARV L1", "ARV L2" or "ARV L3", earned only by a green validator run, with a dated report URL.</li>
+</ul>
+
+<h2 id="scope">2. Scope <a class="anchor" href="#scope" aria-label="Link to section 2">#</a></h2>
+<p>ARV defines formats and behavior at the edge of a video origin: what it publishes for crawlers, what its tools accept and return, what a player receives, and what a receipt proves. The format is open. How well a publisher fills it is up to the publisher.</p>
+<p>In scope:</p>
+<ul>
+  <li>The objects in section 3 and their JSON Schemas.</li>
+  <li>How those objects appear in each bound standard (section 4).</li>
+  <li>The conformance checks and the badge (section 5).</li>
+  <li>An evaluation method for moment quality: range overlap with a reviewed answer, evidence inside the range, honest grades, and playable at the stated start.</li>
+</ul>
+<p>Out of scope:</p>
+<ul>
+  <li>How a producer finds moments, grades evidence, or ranks results.</li>
+  <li>Models, prompts and pipelines.</li>
+  <li>Billing, entitlement systems and commercial terms between parties.</li>
+</ul>
+<p><strong>The moment is an address, not a pre-cut list.</strong> An agent may name any range on any asset. Published moments (chapters, shots, evidence-backed ranges) are suggestions the origin offers. <code>get_rights</code>, <code>play_moment</code> and <code>record_usage</code> MUST accept any range. The origin MAY snap or cap the range and MUST return the range it applied.</p>
+
+<h2 id="objects">3. Core objects <a class="anchor" href="#objects" aria-label="Link to section 3">#</a></h2>
+<p>Each object has a JSON Schema at <code>https://agentreadyvideo.org/schema/1.0/&lt;name&gt;.schema.json</code>. See the <a href="/schema/1.0/">schema index</a>.</p>
+
+<h3 id="asset">3.1 Asset <a class="anchor" href="#asset" aria-label="Link to 3.1">#</a></h3>
+<p>One video as published by an origin.</p>
+<ul>
+  <li><code>id</code> MUST be unique within the publishing origin.</li>
+  <li><code>duration_ms</code> MUST be present. Every moment on the asset lies inside it.</li>
+  <li><code>content_hash</code> SHOULD be present, as <code>sha256:</code> plus lowercase hex.</li>
+  <li><code>c2pa</code> MAY point to Content Credentials for the asset.</li>
+  <li>Vendor data MUST live under <code>extensions</code>, keyed by a reverse-domain name. Core fields MUST NOT carry vendor-specific values.</li>
+</ul>
+{{example:asset}}
+
+<h3 id="moment">3.2 Moment <a class="anchor" href="#moment" aria-label="Link to 3.2">#</a></h3>
+<p>A time range on an asset. Its identity is the canonical range after snapping. Two producers that snap to the same range name the same moment.</p>
+<ul>
+  <li><code>start_ms</code> and <code>end_ms</code> MUST satisfy <code>0 &lt;= start_ms &lt; end_ms &lt;= duration_ms</code>.</li>
+  <li><code>moment_uri</code> MUST equal <code>arv:{asset_id}#t={start_ms},{end_ms}</code>.</li>
+  <li><code>id</code> MUST equal <code>mom_</code> followed by the first 26 characters of the lowercase RFC 4648 base32 encoding (no padding) of SHA-256 over the UTF-8 string <code>{origin}|{asset_id}|{start_ms}|{end_ms}</code>, where <code>origin</code> is the ASCII serialization of the publishing origin (for example <code>https://example.com</code>). Anyone can recompute it.</li>
+  <li><code>moment_url</code> MUST be an https deep link that starts playback at <code>start_ms</code>, using Media Fragments in seconds (<code>#t=12.4,31</code>) or the player's own start parameter.</li>
+  <li><code>snap</code> names the rule used: <code>shot</code>, <code>sentence</code>, <code>word</code>, <code>silence</code> or <code>rights_cap</code>.</li>
+  <li><code>evidence</code> is a list of typed spans: <code>transcript</code>, <code>on_screen_text</code>, <code>shot_caption</code> or <code>visual</code>. Each span MUST lie fully inside the moment range.</li>
+  <li><code>evidence_grade</code>: <strong>A</strong> human-verified; <strong>B</strong> machine-produced and passed the published evaluation method; <strong>C</strong> machine-produced with at least one direct span inside the range; <strong>D</strong> metadata or inference only.</li>
+  <li><code>confidence</code> carries a <code>score</code> from 0 to 1 and a <code>band</code>.</li>
+</ul>
+<p>Chapters, shots and spans are all moments. The spec does not care how a range was found.</p>
+{{example:moment}}
+
+<h3 id="rights-summary">3.3 RightsSummary <a class="anchor" href="#rights-summary" aria-label="Link to 3.3">#</a></h3>
+<p>The public rights for one moment. Terms use RSL 1.0 words where RSL has one, and the <code>arv:</code> extension namespace where it does not.</p>
+<ul>
+  <li><code>rsl</code> tokens MUST be RSL 1.0 words.</li>
+  <li><code>aipref</code> MUST be derived from the same rights record as <code>rsl</code>. The two MUST NOT disagree.</li>
+  <li><code>video</code> holds the video terms: <code>segment_display</code>, <code>source_embed_display</code>, <code>full_video_display</code>, <code>clip</code> and <code>quote_max_ms</code>. An absent boolean means false.</li>
+  <li><code>policy_version</code> MUST change whenever any term changes.</li>
+  <li>Finer terms (agent scope, territory, entitlement) are an L3 concern and live behind tools, not in this public summary.</li>
+</ul>
+{{example:rights-summary}}
+
+<h3 id="playback-descriptor">3.4 PlaybackDescriptor <a class="anchor" href="#playback-descriptor" aria-label="Link to 3.4">#</a></h3>
+<p>What a player needs to start a moment. It is player neutral and is returned only by a playback call, never by discovery.</p>
+<ul>
+  <li><code>start_ms</code> MUST be present. The player starts there.</li>
+  <li><code>cue_points</code> MAY list more start times, for example the steps of a multi-step answer.</li>
+  <li><code>end_ms_advisory</code> MAY be present. The player MUST NOT stop at it by default. Playback continues so the viewer stays with the video. The moment's <code>end_ms</code> still governs rights, quote limits and receipts.</li>
+  <li>Each entry in <code>sources</code> names a <code>kind</code> (<code>hls</code>, <code>dash</code>, <code>mp4</code> or <code>embed</code>) and how to start it: a <code>token_ref</code> plus <code>start_ms</code>, or an <code>embed_url</code> plus the player's own <code>start_param</code>.</li>
+  <li><code>token_ref</code> is exchanged at the origin for a short-lived URL. A signed media URL MUST NOT appear in any cached or crawlable response.</li>
+  <li><code>token.expires_at</code> MUST be no more than 15 minutes after issue.</li>
+</ul>
+{{example:playback-descriptor}}
+
+<h3 id="usage-receipt">3.5 UsageReceipt <a class="anchor" href="#usage-receipt" aria-label="Link to 3.5">#</a></h3>
+<p>A signed record that an agent served a moment.</p>
+<ul>
+  <li><code>moment_uri</code> and <code>moment_id</code> MUST resolve to a moment at the origin.</li>
+  <li><code>action</code> names what was done, using the terms in the RightsSummary (for example <code>segment_display</code>).</li>
+  <li><code>policy_version</code> MUST be the rights policy in force when the moment was served.</li>
+  <li><code>jws</code> MUST be a JWS over the receipt, verifiable with a key from the origin's <code>jwks_url</code>.</li>
+</ul>
+{{example:usage-receipt}}
+
+<h3 id="manifest">3.6 Manifest <a class="anchor" href="#manifest" aria-label="Link to 3.6">#</a></h3>
+<p>Served at <code>/.well-known/arv</code> as JSON. It is the entry point for every validator and agent.</p>
+<ul>
+  <li><code>conformance_level</code> is the level the publisher claims: <code>L1</code>, <code>L2</code> or <code>L3</code>.</li>
+  <li><code>catalogs</code> lists one or more catalog URLs.</li>
+  <li><code>tool_profiles</code> lists the declared inference surfaces. Omit what you do not offer.</li>
+  <li><code>jwks_url</code> is REQUIRED at L3.</li>
+  <li><code>schema</code> SHOULD point to the manifest schema for the version in use.</li>
+</ul>
+{{example:manifest}}
+
+<h3 id="catalog">3.7 Catalog <a class="anchor" href="#catalog" aria-label="Link to 3.7">#</a></h3>
+<p>A list of assets and their published moments, conventionally at <code>/arv.json</code>. Every moment in a catalog MUST validate as a Moment and reference an asset in the same catalog or reachable from the manifest.</p>
+{{example:catalog}}
+
+<h2 id="bindings">4. Bindings <a class="anchor" href="#bindings" aria-label="Link to section 4">#</a></h2>
+<p>How ARV objects appear inside the standards it binds. The <a href="/#bindings">binding table</a> summarises all thirteen.</p>
+
+<h3 id="crawl-time">4.1 Crawl time <a class="anchor" href="#crawl-time" aria-label="Link to 4.1">#</a></h3>
+<ul>
+  <li><strong>schema.org.</strong> JSON-LD <code>VideoObject</code> with <code>hasPart</code> <code>Clip</code> items. Clip <code>@id</code> MUST equal <code>moment_uri</code>. Clip <code>url</code> MUST equal <code>moment_url</code>. A Clip MUST NOT be emitted for a moment without <code>segment_display</code>.</li>
+  <li><strong>Sitemaps and MRSS.</strong> Video sitemap and MRSS entries per asset, with <code>&lt;link rel="arv"&gt;</code> to the manifest.</li>
+  <li><strong>llms.txt.</strong> Sections in this order: what this is, manifest, tools, license, example questions.</li>
+  <li><strong>IndexNow.</strong> Publishers SHOULD push when a moment or its rights change, not only when a page changes.</li>
+  <li><strong>RSL.</strong> A <code>License:</code> line in robots.txt, and <code>Link: &lt;license.xml&gt;; rel="license"; type="application/rsl+xml"</code> on pages and on the catalog. Tokens MUST be RSL 1.0 words.</li>
+  <li><strong>AIPREF.</strong> A <code>Content-Usage</code> header from the same rights record. The AIPREF vocabulary is still an IETF draft; ARV cites it as informative and the validator pins the tokens it accepts.</li>
+</ul>
+
+<h3 id="inference-time">4.2 Inference time <a class="anchor" href="#inference-time" aria-label="Link to 4.2">#</a></h3>
+<ul>
+  <li><strong>MCP origin profile.</strong> Tool names: <code>search_moments</code>, <code>get_moment</code>, <code>get_rights</code>, <code>play_moment</code>, <code>record_usage</code>, plus <code>search</code> and <code>fetch</code> for clients that only speak those two. A server MAY declare other names as aliases. MCP Apps UI is optional and declared with <code>_meta.ui.resourceUri</code> and <code>ui.csp</code>.</li>
+  <li><strong>WebMCP page profile.</strong> Three tools on <code>document.modelContext</code>: <code>search_this_catalog</code>, <code>get_moment_context</code> and <code>play_moment</code>, with <code>ask_this_video</code> optional. Results use a short-lived <code>moment_ref</code>, and rights are rechecked before context and playback.</li>
+  <li><strong>NLWeb.</strong> <code>/ask</code> returns an <code>ItemList</code>. Items are <code>Clip</code> objects with <code>isPartOf</code> the <code>VideoObject</code>, and each carries <code>moment_uri</code>.</li>
+  <li><strong>A2A.</strong> Agent card at <code>/.well-known/agent-card.json</code>, with skills mapped one to one to the MCP origin profile.</li>
+</ul>
+<p id="forbidden-fields"><strong>Forbidden-field rule (normative).</strong> Discovery responses (search, list, ask, JSON-LD, feeds, sitemaps, llms.txt) MUST NOT carry <code>playback_url</code>, <code>stream_url</code>, <code>playback_token</code>, or any manifest or media URL that plays without an origin check. Discovery finds moments. Only a playback call starts them.</p>
+
+<h3 id="playback">4.3 Playback <a class="anchor" href="#playback" aria-label="Link to 4.3">#</a></h3>
+<p>The descriptor is enough for a small adapter per player, under 100 lines, that maps <code>start_ms</code> (and any <code>cue_points</code>) to the player's own API. Examples: a plain <code>&lt;video&gt;</code> element with Media Fragments, hls.js, commercial web players, and iframe embeds such as YouTube (<code>start</code> parameter, <code>t=</code> on watch links).</p>
+<ul>
+  <li>Adapters MUST start at <code>start_ms</code>.</li>
+  <li>Adapters MUST NOT stop at the moment's end by default. An end parameter is optional and off unless the host asks for it.</li>
+  <li>Adapters SHOULD report how the start was reached: <code>sought</code>, <code>cued</code> or <code>fallback</code>.</li>
+</ul>
+
+<h2 id="conformance">5. Conformance levels and the badge <a class="anchor" href="#conformance" aria-label="Link to section 5">#</a></h2>
+<p>The validator is a command-line tool and a hosted page. It runs against a live origin or a local folder. Each check names the standard it comes from. The validator is not yet released; see <a href="/adopt#validator">Adopt</a>.</p>
+
+<h3 id="l1">L1 crawl-readable</h3>
+<ol class="checks">
+  <li><code>/.well-known/arv</code> returns 200 JSON that validates against the manifest schema.</li>
+  <li>Every catalog URL returns a valid catalog. Every moment has <code>start_ms &lt; end_ms</code>, both inside <code>duration_ms</code>, and a recomputable <code>id</code>.</li>
+  <li>Every evidence span lies inside its moment range.</li>
+  <li>At least one sampled page carries JSON-LD <code>VideoObject</code> whose Clip <code>@id</code> values match catalog <code>moment_uri</code> values.</li>
+  <li>A sitemap is reachable from robots.txt, and listed video pages return 200.</li>
+  <li><code>llms.txt</code> is present and links the manifest.</li>
+  <li>The RSL <code>license.xml</code> parses and uses only RSL 1.0 tokens. robots.txt <code>License:</code> or a <code>Link</code> header points to it.</li>
+  <li>No forbidden field appears in any L1 surface.</li>
+</ol>
+
+<h3 id="l2">L2 agent-callable (L1 plus)</h3>
+<ol class="checks" start="9">
+  <li>The MCP endpoint lists the origin profile names or declared aliases. Each input and result validates.</li>
+  <li><code>search_moments</code> returns moments that resolve through <code>get_moment</code> to the same range.</li>
+  <li>No forbidden field appears in any search, ask or list result, fuzzed over 20 queries.</li>
+  <li><code>play_moment</code> returns a descriptor whose token expires within 15 minutes and fails after expiry.</li>
+  <li>If a WebMCP adapter is declared, a headless run registers exactly the page profile tools.</li>
+  <li>If NLWeb or A2A is declared, the endpoint responds and items carry <code>moment_uri</code>.</li>
+</ol>
+
+<h3 id="l3">L3 rights and ledger (L2 plus)</h3>
+<ol class="checks" start="15">
+  <li><code>jwks_url</code> serves keys, and playback tokens and receipts verify against them.</li>
+  <li>Negative tests pass: a moment with <code>segment_display=false</code> yields no descriptor; a revoked policy stops a live token; an agent outside scope is refused; a quote over <code>quote_max_ms</code> is refused.</li>
+  <li><code>record_usage</code> returns a signed receipt that references a resolvable moment.</li>
+  <li>RSL, the AIPREF header and the RightsSummary agree for sampled moments.</li>
+</ol>
+
+<h3 id="badge">The badge</h3>
+<p>An SVG reading "ARV L1", "ARV L2" or "ARV L3" that links to a dated validator report. Reports expire after 90 days unless the validator is run again. Use of the name and badge follows a short conformance mark policy. The spec text itself may be forked under its license.</p>

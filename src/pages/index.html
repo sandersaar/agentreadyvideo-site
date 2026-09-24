@@ -1,0 +1,68 @@
+<!-- {"title":"Agent-Ready Video (ARV)","description":"Agent-Ready Video (ARV) is an open profile that makes video findable, callable and playable by AI agents, with rights and credit attached to every moment.","path":"/","out":"index.html"} -->
+<section class="hero">
+<h1>Agent-Ready Video (ARV)</h1>
+<p class="lede">ARV is an open profile that makes video usable by AI. Follow it and crawlers can find your video, agents can call it, and any player can start it at the right second. The same moment, rights and credit travel with it at every step.</p>
+<p>ARV does not replace the standards you already use. It binds thirteen of them into one manifest, one validator and one badge, and adds only the five things video needs that nobody else defines.</p>
+<div class="cta">
+  <a class="btn primary" href="/spec">Read the spec</a>
+  <a class="btn" href="/adopt">Adopt ARV</a>
+  <a class="btn" href="/schema/1.0/">Schema and examples</a>
+</div>
+</section>
+
+<h2 id="adds">The five things ARV adds</h2>
+<div class="grid">
+  <div class="card"><span class="tag">1</span><h3>Moments</h3><p>A moment is a time range on a video, named by its range: <code>arv:vid_8f2c#t=12400,31000</code>. Anyone can recompute its id.</p></div>
+  <div class="card"><span class="tag">2</span><h3>Per-moment rights</h3><p>Each moment says what an agent may do with it: show it, quote up to N seconds, embed the source, and whether credit is required.</p></div>
+  <div class="card"><span class="tag">3</span><h3>Evidence</h3><p>Typed spans (transcript, on-screen text, shot caption, visual) that sit inside the moment and show why it answers the question.</p></div>
+  <div class="card"><span class="tag">4</span><h3>Player-neutral playback</h3><p>One descriptor that any player can use to start at the right second. Start time is the rule; the end is advisory.</p></div>
+  <div class="card"><span class="tag">5</span><h3>Usage receipts</h3><p>A signed record of which moment an agent served, to whom, under which rights policy, with the citation it showed.</p></div>
+</div>
+
+<h2 id="bindings">The thirteen standards it binds</h2>
+<p>ARV reuses each of these as it is. The right column is all ARV adds.</p>
+<div class="table-wrap bindings">
+<table>
+<thead><tr><th>Standard</th><th>What it covers</th><th>What ARV adds</th><th>When</th></tr></thead>
+<tbody>
+<tr><td>schema.org VideoObject, Clip, SeekToAction</td><td>Video and chapter metadata for search engines</td><td>Clip <code>@id</code> equals the moment URI; rights decide which markup is emitted</td><td>Crawl</td></tr>
+<tr><td>W3C Media Fragments (<code>#t=start,end</code>)</td><td>Addressing a time range in a media URL</td><td>The snapped range is the identity, in milliseconds</td><td>Crawl, inference, playback</td></tr>
+<tr><td>Video sitemaps, MRSS</td><td>Listing videos for crawlers and feeds</td><td>Per-moment entries and a link to the manifest</td><td>Crawl</td></tr>
+<tr><td>llms.txt</td><td>A plain guide for language models</td><td>Fixed section order that points at the manifest and tools</td><td>Crawl</td></tr>
+<tr><td>IndexNow</td><td>Push notice of changed URLs</td><td>Push when a moment or its rights change, not only the page</td><td>Crawl</td></tr>
+<tr><td>RSL 1.0</td><td>Machine-readable license and payment terms</td><td>Per-moment video terms: segment display, source embed, quote limits</td><td>Crawl, inference</td></tr>
+<tr><td>IETF AIPREF (Content-Usage)</td><td>Training, AI use and search preferences</td><td>Header derived from the same rights record as RSL, so they never disagree</td><td>Crawl</td></tr>
+<tr><td>MCP and MCP Apps</td><td>Agent tool calls and in-chat UI</td><td>Origin tool profile with fixed names and shapes; forbidden-field rule</td><td>Inference</td></tr>
+<tr><td>WebMCP</td><td>Tools a page exposes to an in-browser agent</td><td>Page profile: three tools plus an optional ask</td><td>Inference</td></tr>
+<tr><td>NLWeb</td><td><code>/ask</code> returning schema.org items</td><td>Items are Clips that carry moment URIs</td><td>Inference</td></tr>
+<tr><td>A2A agent card</td><td>Agent-to-agent discovery</td><td>Card skills map one to one to the MCP profile</td><td>Inference</td></tr>
+<tr><td>JSON Schema, JWS, JWKS</td><td>Shape validation, signatures, key sets</td><td>Versioned schema URLs; signed playback tokens and receipts</td><td>All</td></tr>
+<tr><td>HLS, DASH, MP4, iframe players</td><td>Delivery and players</td><td>Player-neutral descriptor with a start time and optional cue points</td><td>Playback</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="levels">Three conformance levels</h2>
+<div class="grid">
+  <div class="card"><span class="tag">L1</span><h3>Crawl-readable</h3><p>Manifest, catalog, JSON-LD, sitemap, llms.txt and a license file. A static site can reach L1 with JSON alone.</p></div>
+  <div class="card"><span class="tag">L2</span><h3>Agent-callable</h3><p>L1 plus an MCP endpoint with the origin profile, moments that resolve, and short-lived playback tokens. No stream URLs in discovery.</p></div>
+  <div class="card"><span class="tag">L3</span><h3>Rights and ledger</h3><p>L2 plus published keys, signed receipts, and rights that hold under negative tests.</p></div>
+</div>
+<p>One validator checks all three and prints pass or fail per standard. A green run earns the badge "ARV L1", "L2" or "L3" with a dated report. <a href="/spec#conformance">The checks</a>.</p>
+
+<h2 id="adopt">Adopt it in three starters</h2>
+<div class="grid">
+  <div class="card"><span class="tag">Static site</span><h3>Reference producer <span class="coming">coming</span></h3><p>Transcript plus chapters in, a static L1 site out. No server needed.</p></div>
+  <div class="card"><span class="tag">Player</span><h3>Player adapter <span class="coming">coming</span></h3><p>Under 100 lines. Maps the descriptor's start time to your player's own API.</p></div>
+  <div class="card"><span class="tag">Agent</span><h3>MCP origin profile <span class="coming">coming</span></h3><p>Five tools with fixed names and shapes, so any agent can search, check rights and play.</p></div>
+</div>
+<p>Nobody has to implement rights or receipts to start. <a href="/adopt">How to adopt</a>.</p>
+
+<h2 id="links">Links</h2>
+<ul>
+  <li><a href="/spec">Specification, Draft 1.0</a></li>
+  <li><a href="/schema/1.0/">Schema index and example objects</a></li>
+  <li><a href="/adopt">Adopt: levels, validator, starters</a></li>
+  <li><a href="/governance">Governance, licenses and how to join</a></li>
+  <li><a href="/llms.txt">llms.txt</a> for language models</li>
+</ul>
