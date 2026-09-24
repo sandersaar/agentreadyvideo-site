@@ -61,9 +61,21 @@ nav.primary a { color: var(--muted); text-decoration: none; font-size: var(--fs-
 nav.primary a:hover { color: var(--text); background: var(--surface-2); }
 nav.primary a[aria-current="page"] { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
 nav.primary a.gh { display: inline-flex; align-items: center; gap: 8px; }
-button.theme { display: inline-grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--muted); cursor: pointer; }
+button.theme { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--muted); cursor: pointer; }
 button.theme:hover { color: var(--text); }
-@media (max-width: 559px) { nav.primary { width: 100%; } }
+.bar-actions { display: inline-flex; align-items: center; gap: 8px; }
+button.menu-toggle { display: none; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); font: 500 var(--fs-14)/1 inherit; cursor: pointer; }
+button.menu-toggle:hover { background: var(--surface-2); }
+@media (max-width: 899px) {
+  .bar { flex-wrap: wrap; }
+  .brand { flex: 1 1 auto; }
+  html.js button.menu-toggle { display: inline-flex; }
+  html.js nav.primary { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 2px; margin: 4px 0 0; padding-top: 8px; border-top: 1px solid var(--border); }
+  html.js nav.primary.open { display: flex; }
+  nav.primary a { padding: 10px 8px; font-size: var(--fs-16); }
+  nav.primary a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--accent); border-radius: 0; }
+  html:not(.js) nav.primary { width: 100%; }
+}
 
 /* ---------- main and type ---------- */
 main.wrap { padding-top: 32px; padding-bottom: 64px; }

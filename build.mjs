@@ -239,10 +239,13 @@ ${jsonLd(meta, body)}
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href="/" aria-label="Agent-Ready Video, home">${LOGO}<span class="brand-name">Agent-Ready Video</span></a>
-    <nav class="primary" aria-label="Primary">
+    <div class="bar-actions">
+      <button type="button" class="theme" data-theme-toggle aria-label="Switch color theme" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1.5v11a5.5 5.5 0 010-11z"/></svg></button>
+      <button type="button" class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="primary-nav"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M1 3h14v1.5H1zM1 7.25h14v1.5H1zM1 11.5h14V13H1z"/></svg><span>Menu</span></button>
+    </div>
+    <nav id="primary-nav" class="primary" aria-label="Primary">
       ${nav.map(([href, label]) => `<a href="${href}"${current(href)}>${label}</a>`).join("\n      ")}
       <a class="gh" href="${REPO}">${GH_ICON}<span>GitHub</span></a>
-      <button type="button" class="theme" data-theme-toggle aria-label="Switch color theme" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1.5v11a5.5 5.5 0 010-11z"/></svg></button>
     </nav>
   </div>
 </header>

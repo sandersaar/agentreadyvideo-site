@@ -92,3 +92,13 @@
     });
   }
 })();
+
+(() => {
+  const t = document.querySelector("[data-menu-toggle]");
+  const nav = t && document.getElementById(t.getAttribute("aria-controls"));
+  if (!t || !nav) return;
+  const set = (open) => { nav.classList.toggle("open", open); t.setAttribute("aria-expanded", String(open)); t.querySelector("span").textContent = open ? "Close" : "Menu"; };
+  t.addEventListener("click", () => set(!nav.classList.contains("open")));
+  nav.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") set(false); });
+})();
