@@ -259,7 +259,7 @@ ${meta.nostatus ? "" : `<p class="status"><span class="dot" aria-hidden="true"><
         <p>Maintainer: <a href="https://agentcdn.com">AgentCDN</a></p>
         <p>Supporters: open, join the Agent-Ready Video Community Group at W3C (proposal pending)</p>
         <p>Contact: <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p>
-        <p>Spec text: Community Specification License 1.0. Code: Apache-2.0. Docs: CC-BY-4.0.</p>
+        <p>Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch. Code: Apache-2.0. Docs: CC-BY-4.0.</p>
         <p>Cite as: Agent-Ready Video (ARV) Specification, Draft 1.0. AgentCDN, 2026. <a href="${SPEC}">${SITE}${SPEC}</a></p>
       </div>
       <nav aria-label="Site index">
@@ -432,7 +432,7 @@ const specPage = pages.find((p) => p.path === SPEC);
 const faq = pages.find((p) => p.path === "/faq");
 writeFileSync(join(dist, "llms-full.txt"), `# Agent-Ready Video (ARV): full specification text
 
-> ${STATUS}. Published ${PUBLISHED}, updated ${UPDATED}. Canonical URL: ${SITE}${SPEC}. Maintained by AgentCDN. Spec text: Community Specification License 1.0.
+> ${STATUS}. Published ${PUBLISHED}, updated ${UPDATED}. Canonical URL: ${SITE}${SPEC}. Maintained by AgentCDN. Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch.
 > Source: ${std.repo} at commit ${std.sha}.
 > Suggested citation: ${CITE}
 

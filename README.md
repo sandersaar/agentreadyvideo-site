@@ -12,4 +12,4 @@ Source for agentreadyvideo.org, the public home of the Agent-Ready Video (ARV) s
 - `node scripts/serve.mjs [port]`: zero-dependency preview of `dist/` that applies the `vercel.json` redirects, clean URLs and headers.
 - `node scripts/og-image.mjs`: redraws `public/og.svg` and renders `public/og.png` (1200x630) with local Chrome. Run it by hand when the card text changes.
 
-Deploys on Vercel (`vercel.json`). Licenses: spec text Community Specification License 1.0, code Apache-2.0, docs CC-BY-4.0.
+Deploys on Vercel (`vercel.json`). Licenses: spec text contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch, code Apache-2.0, docs CC-BY-4.0.

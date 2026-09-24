@@ -36,7 +36,7 @@
 
 ## License
 
-- Spec text: Community Specification License 1.0. Code: Apache-2.0. Docs: CC-BY-4.0.
+- Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch. Code: Apache-2.0. Docs: CC-BY-4.0.
 - Suggested citation: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. https://agentreadyvideo.org/spec/1.0
 - Contact: team@agentreadyvideo.org
 
