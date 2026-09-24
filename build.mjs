@@ -55,7 +55,9 @@ ${body}
 </main>
 <footer class="site">
   <div class="wrap foot">
-    <p>Maintained by <a href="https://agentcdn.com">AgentCDN</a>. Contact: <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p>
+    <p>Maintainer: <a href="https://agentcdn.com">AgentCDN</a></p>
+    <p>Supporters: open, join the Agent-Ready Video Community Group at W3C (proposal pending)</p>
+    <p>Contact: <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p>
     <p>Spec text: Community Specification License 1.0. Code: Apache-2.0. Docs: CC-BY-4.0.</p>
     <p><a href="/llms.txt">llms.txt</a> · <a href="/spec">Spec</a> · <a href="/schema/1.0/">Schema</a> · <a href="/adopt">Adopt</a> · <a href="/governance">Governance</a></p>
   </div>
