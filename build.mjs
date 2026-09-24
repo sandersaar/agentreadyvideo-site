@@ -228,6 +228,8 @@ const layout = (meta, body) => {
 <script type="application/ld+json">
 ${jsonLd(meta, body)}
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6RW53BPVPJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-6RW53BPVPJ",{anonymize_ip:true});</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
