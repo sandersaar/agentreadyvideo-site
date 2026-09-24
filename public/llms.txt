@@ -21,11 +21,12 @@
 - [Quick start](https://agentreadyvideo.org/quickstart): reach level L1 on a static site in five minutes with copyable files.
 - [FAQ](https://agentreadyvideo.org/faq): sixteen common questions with short, quotable answers.
 - [Implementations](https://agentreadyvideo.org/implementations): none yet; how to list yours.
-- [Schema index](https://agentreadyvideo.org/schema/1.0/): seven objects. Schema files will live at https://agentreadyvideo.org/schema/1.0/<name>.schema.json (not published yet).
+- [Schema index](https://agentreadyvideo.org/schema/1.0/): seven objects. Each JSON Schema lives at https://agentreadyvideo.org/schema/1.0/<name>.schema.json, and its $id equals that URL. Example: https://agentreadyvideo.org/schema/1.0/moment.schema.json
 - [Changelog](https://agentreadyvideo.org/changelog): dated changes to the spec, examples, site and process.
 - [Governance](https://agentreadyvideo.org/governance): maintainer, licenses, how a feature becomes required, status and roadmap, how to contribute.
 - [llms-full.txt](https://agentreadyvideo.org/llms-full.txt): the full spec text and the FAQ as plain Markdown.
-- Source: https://github.com/sandersaar/agentreadyvideo-site
+- Standard source (spec text, schemas, examples): https://github.com/sandersaar/agentreadyvideo. The site renders it at the commit pinned in standard.lock.json.
+- Site source: https://github.com/sandersaar/agentreadyvideo-site
 - Examples: [asset](https://agentreadyvideo.org/examples/1.0/asset.json), [moment](https://agentreadyvideo.org/examples/1.0/moment.json), [rights-summary](https://agentreadyvideo.org/examples/1.0/rights-summary.json), [rights-summary-account-link](https://agentreadyvideo.org/examples/1.0/rights-summary-account-link.json), [playback-descriptor](https://agentreadyvideo.org/examples/1.0/playback-descriptor.json), [usage-receipt](https://agentreadyvideo.org/examples/1.0/usage-receipt.json), [manifest](https://agentreadyvideo.org/examples/1.0/manifest.json), [catalog](https://agentreadyvideo.org/examples/1.0/catalog.json)
 
 ## Tools

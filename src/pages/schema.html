@@ -1,28 +1,15 @@
-<!-- {"title": "ARV Schema 1.0: objects and examples | Agent-Ready Video", "description": "JSON Schema index for Agent-Ready Video (ARV) Draft 1.0: seven objects, their future schema URLs, and example JSON you can fetch today.", "path": "/schema/1.0/", "out": "schema/1.0/index.html", "crumb": "Schema 1.0"} -->
+<!-- {"title": "ARV Schema 1.0: objects and examples | Agent-Ready Video", "description": "JSON Schema index for Agent-Ready Video (ARV) Draft 1.0: seven objects, their JSON Schema files at fixed URLs, and example JSON you can fetch.", "path": "/schema/1.0/", "out": "schema/1.0/index.html", "crumb": "Schema 1.0"} -->
 <h1>Schema 1.0</h1>
 <p class="lede">Seven objects make up ARV 1.0. Each has a JSON Schema and an example.</p>
-<p>The schema files are not published yet. When they are, each lives at a fixed URL, and its <code>$id</code> equals that URL. Published versions never change; a new version gets a new path. Until then, the examples below are served as JSON and match the <a href="/spec/1.0#objects">spec text</a>.</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Object</th><th>Schema URL</th><th>Example</th></tr></thead>
-<tbody>
-<tr><td><a href="/spec/1.0#asset">Asset</a></td><td><code>https://agentreadyvideo.org/schema/1.0/asset.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/asset.json">asset.json</a></td></tr>
-<tr><td><a href="/spec/1.0#moment">Moment</a></td><td><code>https://agentreadyvideo.org/schema/1.0/moment.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/moment.json">moment.json</a></td></tr>
-<tr><td><a href="/spec/1.0#rights-summary">RightsSummary</a></td><td><code>https://agentreadyvideo.org/schema/1.0/rights-summary.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/rights-summary.json">rights-summary.json</a>, <a href="/examples/1.0/rights-summary-account-link.json">rights-summary-account-link.json</a></td></tr>
-<tr><td><a href="/spec/1.0#playback-descriptor">PlaybackDescriptor</a></td><td><code>https://agentreadyvideo.org/schema/1.0/playback-descriptor.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/playback-descriptor.json">playback-descriptor.json</a></td></tr>
-<tr><td><a href="/spec/1.0#usage-receipt">UsageReceipt</a></td><td><code>https://agentreadyvideo.org/schema/1.0/usage-receipt.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/usage-receipt.json">usage-receipt.json</a></td></tr>
-<tr><td><a href="/spec/1.0#manifest">Manifest</a></td><td><code>https://agentreadyvideo.org/schema/1.0/manifest.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/manifest.json">manifest.json</a></td></tr>
-<tr><td><a href="/spec/1.0#catalog">Catalog</a></td><td><code>https://agentreadyvideo.org/schema/1.0/catalog.schema.json</code> <span class="coming">coming</span></td><td><a href="/examples/1.0/catalog.json">catalog.json</a></td></tr>
-</tbody>
-</table>
-</div>
+<p>Each schema is JSON Schema draft 2020-12, served as <code>application/schema+json</code> at a fixed URL, and its <code>$id</code> equals that URL. Published versions never change; a new version gets a new path. The schemas and examples below come from the <a href="{{std:repo}}">source repository</a> at commit <code>{{std:short}}</code> and match the <a href="/spec/1.0#objects">spec text</a>.</p>
+{{schema-table}}
 <h2 id="rules">Rules for every object</h2>
 <ul>
   <li>Every object carries <code>"arv": "1.0"</code>.</li>
   <li>Times are integer milliseconds.</li>
   <li>Moments are named <code>arv:{asset_id}#t={start_ms},{end_ms}</code>.</li>
   <li>Vendor data lives under <code>extensions</code> with a reverse-domain key.</li>
-  <li>Examples are served with <code>Access-Control-Allow-Origin: *</code>, so you can fetch them from a browser or test.</li>
+  <li>Schemas and examples are served with <code>Access-Control-Allow-Origin: *</code>, so you can fetch them from a browser or test.</li>
 </ul>
 
 <h2 id="start">Start from the examples</h2>

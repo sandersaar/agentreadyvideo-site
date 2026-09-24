@@ -10,37 +10,7 @@
 <h2 id="step-catalog">1. Write /arv.json</h2>
 <p>The catalog lists your videos (assets) and the moments on them. Name each moment by its range, <code>arv:{asset_id}#t={start_ms},{end_ms}</code>, and give it a deep link that opens the video at the start.</p>
 {{code file="/arv.json" lang="json"}}
-{
-  "arv": "1.0",
-  "origin": "https://example.com",
-  "manifest_url": "https://example.com/.well-known/arv",
-  "updated_at": "2026-09-23T12:00:00Z",
-  "assets": [
-    {
-      "arv": "1.0",
-      "id": "vid_8f2c",
-      "title": "Tuning a carburettor",
-      "duration_ms": 1284000,
-      "language": "en",
-      "page_url": "https://example.com/videos/carb",
-      "creator": { "id": "cr_12", "name": "Example Garage", "url": "https://example.com" }
-    }
-  ],
-  "moments": [
-    {
-      "arv": "1.0",
-      "id": "mom_rg2e4kdenkmkzilboihacumshn",
-      "moment_uri": "arv:vid_8f2c#t=12400,31000",
-      "moment_url": "https://example.com/videos/carb#t=12.4,31",
-      "asset_id": "vid_8f2c",
-      "start_ms": 12400,
-      "end_ms": 31000,
-      "snap": "sentence",
-      "title": "Setting the idle mixture screw",
-      "evidence_grade": "C"
-    }
-  ]
-}
+{{json:catalog}}
 {{/code}}
 <p>The moment <code>id</code> is not random. It is <code>mom_</code> plus the first 26 characters of the lowercase base32 SHA-256 of <code>{origin}|{asset_id}|{start_ms}|{end_ms}</code>, so anyone can check it. Compute yours:</p>
 <div class="tabs" data-tabs>
@@ -59,8 +29,8 @@ const momentId = (origin, assetId, startMs, endMs) => {
   for (let i = 0; i + 5 <= bits.length; i += 5) out += abc[parseInt(bits.slice(i, i + 5), 2)];
   return "mom_" + out.slice(0, 26);
 };
-console.log(momentId("https://example.com", "vid_8f2c", 12400, 31000));
-// mom_rg2e4kdenkmkzilboihacumshn
+console.log(momentId({{mid:call}}));
+// {{mid:id}}
 {{/code}}
 </div>
 <div class="tabpanel" role="tabpanel" id="id-python" aria-labelledby="id-tab-python">
@@ -72,8 +42,8 @@ def moment_id(origin, asset_id, start_ms, end_ms):
     b32 = base64.b32encode(hashlib.sha256(raw).digest()).decode().rstrip("=").lower()
     return "mom_" + b32[:26]
 
-print(moment_id("https://example.com", "vid_8f2c", 12400, 31000))
-# mom_rg2e4kdenkmkzilboihacumshn
+print(moment_id({{mid:call}}))
+# {{mid:id}}
 {{/code}}
 </div>
 </div>
@@ -81,14 +51,7 @@ print(moment_id("https://example.com", "vid_8f2c", 12400, 31000))
 <h2 id="step-manifest">2. Add /.well-known/arv</h2>
 <p>The manifest is where validators and agents start. At L1 it names your level, your license and your catalogs. Leave out tool profiles and keys until you offer them.</p>
 {{code file="/.well-known/arv" lang="json"}}
-{
-  "arv": "1.0",
-  "conformance_level": "L1",
-  "publisher": { "name": "Example Garage", "contact": "agents@example.com" },
-  "license_url": "https://example.com/license.xml",
-  "catalogs": ["https://example.com/arv.json"],
-  "schema": "https://agentreadyvideo.org/schema/1.0/manifest.schema.json"
-}
+{{json:manifest-l1}}
 {{/code}}
 <p class="small muted">The file has no extension, so tell your host to serve it as <code>application/json</code>. On Vercel that is a <code>headers</code> entry in <code>vercel.json</code>; on Netlify, a <code>_headers</code> line; on GitHub Pages, keep a <code>.nojekyll</code> file so the <code>.well-known</code> folder is published.</p>
 
@@ -96,26 +59,7 @@ print(moment_id("https://example.com", "vid_8f2c", 12400, 31000))
 <p>On each video page, describe the video as a schema.org <code>VideoObject</code> and each moment as a <code>Clip</code>. The Clip <code>@id</code> must equal the <code>moment_uri</code> and its <code>url</code> must equal the <code>moment_url</code>, so crawlers and agents name the same moment.</p>
 {{code file="/videos/carb (inside &lt;head&gt;)" lang="html"}}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  "@id": "https://example.com/videos/carb#video",
-  "name": "Tuning a carburettor",
-  "description": "How to set the idle mixture screw and check the idle speed.",
-  "thumbnailUrl": "https://example.com/poster/vid_8f2c.jpg",
-  "uploadDate": "2026-09-01",
-  "duration": "PT21M24S",
-  "hasPart": [
-    {
-      "@type": "Clip",
-      "@id": "arv:vid_8f2c#t=12400,31000",
-      "name": "Setting the idle mixture screw",
-      "startOffset": 12.4,
-      "endOffset": 31,
-      "url": "https://example.com/videos/carb#t=12.4,31"
-    }
-  ]
-}
+{{json:video-jsonld}}
 </script>
 {{/code}}
 <p class="small muted">Do not put a stream or media file URL in this markup. Discovery finds moments; only a playback call starts them (<a href="/spec/1.0#forbidden-fields">forbidden-field rule</a>). Emit a Clip only for moments whose rights allow segment display.</p>

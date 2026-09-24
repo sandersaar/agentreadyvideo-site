@@ -1,7 +1,11 @@
 // Zero-dependency static build: wraps src/pages/*.html in one layout, writes JSON-LD, sitemap.xml
 // and llms-full.txt, copies public/ to dist/, then runs the publishing guard.
+// Spec text, schemas, examples, changelog and governance rules come from the ARV standard repo at the
+// commit pinned in standard.lock.json. Run `node scripts/sync-standard.mjs` first (npm run build does).
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync, rmSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
+import { createHash } from "node:crypto";
+import { loadStandard, renderSpec, changelogEntries, governance, standardsTable, SPEC_CONTENTS, SPEC_ANCHORS } from "./scripts/standard.mjs";
 
 const root = dirname(new URL(import.meta.url).pathname);
 const dist = join(root, "dist");
@@ -20,13 +24,19 @@ const LICENSES = {
   docs: "https://creativecommons.org/licenses/by/4.0/",
 };
 
+const std = loadStandard(root);
 rmSync(dist, { recursive: true, force: true });
 cpSync(join(root, "public"), dist, { recursive: true });
+mkdirSync(join(dist, "examples/1.0"), { recursive: true });
+mkdirSync(join(dist, "schema/1.0"), { recursive: true });
+for (const n of std.examples) cpSync(join(std.dir, "examples/1.0", `${n}.json`), join(dist, "examples/1.0", `${n}.json`));
+for (const n of std.schemas) cpSync(join(std.dir, "schemas/1.0", `${n}.schema.json`), join(dist, "schema/1.0", `${n}.schema.json`));
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const decode = (s) => s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
 const plain = (html) => decode(html.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
-const exampleJson = (name) => readFileSync(join(root, "public/examples/1.0", `${name}.json`), "utf8").trim();
+const exampleJson = (name) => readFileSync(join(std.dir, "examples/1.0", `${name}.json`), "utf8").trim();
+const exampleObj = (name) => JSON.parse(exampleJson(name));
 const codeFigure = (caption, code, lang = "") =>
   `<figure class="code"${lang ? ` data-lang="${lang}"` : ""}><figcaption><span class="file">${caption}</span></figcaption><pre tabindex="0"><code>${esc(code)}</code></pre></figure>`;
 const example = (name) => codeFigure(`<a href="/examples/1.0/${name}.json">/examples/1.0/${name}.json</a>`, exampleJson(name), "json");
@@ -265,15 +275,88 @@ const withCells = (body) =>
     return t.replace(/<tr>([\s\S]*?)<\/tr>/g, (row, cells) =>
       /<th>/.test(cells) ? row : "<tr>" + (() => { let i = 0; return cells.replace(/<td>/g, () => `<td data-label="${heads[i++] ?? ""}">`); })() + "</tr>");
   });
-// Every h2 and h3 with an id gets a hover link to itself.
+// Every h2, h3 and h4 with an id gets a hover link to itself.
 const withAnchors = (body) =>
-  body.replace(/<(h[23]) id="([a-z0-9-]+)"([^>]*)>([\s\S]*?)<\/\1>/g, (all, tag, id, rest, inner) =>
+  body.replace(/<(h[234]) id="([a-z0-9-]+)"([^>]*)>([\s\S]*?)<\/\1>/g, (all, tag, id, rest, inner) =>
     /class="anchor"/.test(inner) ? all : `<${tag} id="${id}"${rest}>${inner} <a class="anchor" href="#${id}" aria-label="Link to section: ${esc(plain(inner))}">#</a></${tag}>`);
 const withCode = (body) =>
   body.replace(/\{\{code ([^}]+)\}\}\n([\s\S]*?)\n\{\{\/code\}\}/g, (_, attrs, code) => {
     const a = Object.fromEntries([...attrs.matchAll(/(\w+)="([^"]*)"/g)].map((m) => [m[1], m[2]]));
     return codeFigure(a.file ?? "", code, a.lang ?? "");
   });
+
+// ---------- content from the standard repo ----------
+const spec = renderSpec(std, codeFigure);
+// Moment id rule from spec section 3.2, used to check the example ids and fill the quick start.
+const momentId = (origin, assetId, startMs, endMs) => {
+  const hash = createHash("sha256").update(`${origin}|${assetId}|${startMs}|${endMs}`).digest();
+  let bits = "", out = "";
+  for (const byte of hash) bits += byte.toString(2).padStart(8, "0");
+  for (let i = 0; i + 5 <= bits.length; i += 5) out += "abcdefghijklmnopqrstuvwxyz234567"[parseInt(bits.slice(i, i + 5), 2)];
+  return "mom_" + out.slice(0, 26);
+};
+const catalog = exampleObj("catalog");
+const qsAsset = catalog.assets[0];
+const qsMoment = catalog.moments[0];
+const manifestL1 = (({ arv, publisher, license_url, catalogs, schema }) => ({ arv, conformance_level: "L1", publisher, license_url, catalogs, schema }))(exampleObj("manifest"));
+const isoDuration = (ms) => { const s = Math.round(ms / 1000); return `PT${Math.floor(s / 3600) ? `${Math.floor(s / 3600)}H` : ""}${Math.floor(s / 60) % 60 ? `${Math.floor(s / 60) % 60}M` : ""}${s % 60 ? `${s % 60}S` : ""}`; };
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "@id": `${qsAsset.page_url}#video`,
+  name: qsAsset.title,
+  description: "How to set the idle mixture screw and check the idle speed.",
+  thumbnailUrl: exampleObj("playback-descriptor").poster,
+  uploadDate: "2026-09-01",
+  duration: isoDuration(qsAsset.duration_ms),
+  hasPart: catalog.moments.filter((m) => m.asset_id === qsAsset.id).map((m) => ({
+    "@type": "Clip", "@id": m.moment_uri, name: m.title, startOffset: m.start_ms / 1000, endOffset: m.end_ms / 1000, url: m.moment_url,
+  })),
+};
+const SCHEMA_ANCHOR = { asset: "asset", moment: "moment", "rights-summary": "rights-summary", "playback-descriptor": "playback-descriptor", "usage-receipt": "usage-receipt", manifest: "manifest", catalog: "catalog" };
+const schemaTable = () => `<div class="table-wrap">
+<table>
+<thead><tr><th>Object</th><th>Schema</th><th>Example</th></tr></thead>
+<tbody>
+${[...std.schemas].sort((x, y) => ((i) => i(x) - i(y))((n) => { const k = Object.keys(SCHEMA_ANCHOR).indexOf(n); return k < 0 ? 99 : k; })).map((n) => {
+  const title = JSON.parse(readFileSync(join(std.dir, "schemas/1.0", `${n}.schema.json`), "utf8")).title.replace(/^ARV /, "");
+  const exs = std.examples.filter((e) => e === n || e.startsWith(`${n}-`)).sort((x, y) => (x === n ? -1 : y === n ? 1 : x.localeCompare(y)));
+  const obj = SCHEMA_ANCHOR[n] ? `<a href="${SPEC}#${SCHEMA_ANCHOR[n]}">${esc(title)}</a>` : esc(title);
+  return `<tr><td>${obj}</td><td><a href="/schema/1.0/${n}.schema.json"><code>${SITE}/schema/1.0/${n}.schema.json</code></a></td><td>${exs.map((e) => `<a href="/examples/1.0/${e}.json">${e}.json</a>`).join(", ") || "None"}</td></tr>`;
+}).join("\n")}
+</tbody>
+</table>
+</div>`;
+const CHANGELOG_TITLES = {
+  Unreleased: "Public source repository",
+  "2026-09-24": "Entitlement and payment fields, site launch, registrations",
+  "2026-09-23": "Draft 1.0 proposed",
+};
+const changelogList = () => `<ol class="changelog">
+${changelogEntries(std).map(({ date, items }) => {
+  const dated = /^\d{4}-\d{2}-\d{2}$/.test(date);
+  const id = dated ? date : date.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return `<li>
+${dated ? `<time datetime="${date}">${date}</time>` : `<span class="when">${esc(date)}</span>`}
+<h2 id="${id}">${esc(CHANGELOG_TITLES[date] ?? date)}</h2>
+<ul>
+${items.map((i) => `  <li>${i}</li>`).join("\n")}
+</ul>
+</li>`;
+}).join("\n")}
+</ol>`;
+const macros = (body) => body
+  .replace(/\{\{spec:(toc|conventions|glossary|sections|changes)\}\}/g, (_, k) => spec[k])
+  .replace(/\{\{standards-table\}\}/g, () => standardsTable(std, "table-wrap bindings"))
+  .replace(/\{\{schema-table\}\}/g, schemaTable)
+  .replace(/\{\{changelog\}\}/g, changelogList)
+  .replace(/\{\{governance:([^}]+)\}\}/g, (_, t) => governance(std, t))
+  .replace(/\{\{json:catalog\}\}/g, () => exampleJson("catalog"))
+  .replace(/\{\{json:manifest-l1\}\}/g, () => JSON.stringify(manifestL1, null, 2))
+  .replace(/\{\{json:video-jsonld\}\}/g, () => JSON.stringify(videoJsonLd, null, 2))
+  .replace(/\{\{mid:call\}\}/g, () => `"${catalog.origin}", "${qsMoment.asset_id}", ${qsMoment.start_ms}, ${qsMoment.end_ms}`)
+  .replace(/\{\{mid:id\}\}/g, () => momentId(catalog.origin, qsMoment.asset_id, qsMoment.start_ms, qsMoment.end_ms))
+  .replace(/\{\{std:(repo|sha|short)\}\}/g, (_, k) => std[k]);
 
 // ---------- pages ----------
 const pages = [];
@@ -285,7 +368,7 @@ for (const file of readdirSync(join(root, "src/pages")).sort()) {
   const meta = JSON.parse(m[1]);
   for (const k of ["title", "description", "path", "out"]) if (!meta[k]?.trim()) throw new Error(`${file}: front matter lacks ${k}`);
   if (meta.path !== "/" && !meta.crumb) throw new Error(`${file}: front matter lacks crumb`);
-  let body = raw.slice(m[0].length)
+  let body = macros(raw.slice(m[0].length))
     .replace(/\{\{example:([a-z-]+)\}\}/g, (_, n) => example(n))
     .replace(/\{\{tabs:([a-z]+):([a-z,-]+)\}\}/g, (_, id, list) => tabs(id, list.split(",")))
     .replace(/\{\{cite\}\}/g, CITE)
@@ -324,6 +407,7 @@ const toMarkdown = (html, base) => {
     .replace(/<h1[^>]*>([\s\S]*?)<\/h1>/g, "\n\n# $1\n\n")
     .replace(/<h2[^>]*>([\s\S]*?)<\/h2>/g, "\n\n## $1\n\n")
     .replace(/<h3[^>]*>([\s\S]*?)<\/h3>/g, "\n\n### $1\n\n")
+    .replace(/<h4[^>]*>([\s\S]*?)<\/h4>/g, "\n\n#### $1\n\n")
     .replace(/<dt[^>]*>([\s\S]*?)<\/dt>\s*<dd>([\s\S]*?)<\/dd>/g, "\n- **$1**: $2")
     .replace(/<li[^>]*>/g, "\n- ").replace(/<\/li>/g, "")
     .replace(/<\/(p|ul|ol|dl|table|div|section)>/g, "\n\n")
@@ -336,14 +420,15 @@ const toMarkdown = (html, base) => {
   const tidy = (p) => decode(p).replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").replace(/\n{2,}(?=(- |\d+\. ))/g, (m, _, off, s) => (/\n(- |\d+\. )[^\n]*$/.test(s.slice(0, off)) ? "\n" : m));
   return parts.map((p, i) => (i % 2 ? p : tidy(p))).join("").replace(/\n{3,}/g, "\n\n").trim();
 };
-const spec = pages.find((p) => p.path === SPEC);
+const specPage = pages.find((p) => p.path === SPEC);
 const faq = pages.find((p) => p.path === "/faq");
 writeFileSync(join(dist, "llms-full.txt"), `# Agent-Ready Video (ARV): full specification text
 
 > ${STATUS}. Published ${PUBLISHED}, updated ${UPDATED}. Canonical URL: ${SITE}${SPEC}. Maintained by AgentCDN. Spec text: Community Specification License 1.0.
+> Source: ${std.repo} at commit ${std.sha}.
 > Suggested citation: ${CITE}
 
-${toMarkdown(spec.body, SPEC)}
+${toMarkdown(specPage.body, SPEC)}
 
 ---
 
@@ -412,4 +497,37 @@ for (const f of walk(dist)) {
   }
 }
 for (const [src, dst] of redirects) if (!resolve(dst)) throw new Error(`redirect ${src} -> ${dst} has no target`);
+
+// Standard repo checks: schema $id equals its URL here, examples parse, moment ids recompute,
+// every spec contents entry exists, and vercel.json serves schemas as application/schema+json.
+const schemaFiles = walk(join(dist, "schema")).filter((f) => f.endsWith(".schema.json"));
+if (schemaFiles.length !== std.schemas.length || !schemaFiles.length) throw new Error(`expected ${std.schemas.length} schema files in dist/schema, found ${schemaFiles.length}`);
+for (const f of schemaFiles) {
+  let s;
+  try { s = JSON.parse(readFileSync(f, "utf8")); } catch (e) { throw new Error(`${f}: schema does not parse: ${e.message}`); }
+  const url = SITE + f.slice(dist.length);
+  if (s.$id !== url) throw new Error(`${f}: $id ${s.$id} does not equal its URL ${url}`);
+}
+const schemaRule = (vercel.headers ?? []).find((h) => new RegExp("^" + h.source.replace(/\(\.\*\)/g, ".*") + "$").test("/schema/1.0/moment.schema.json"));
+if (!schemaRule?.headers.some((x) => x.key === "Content-Type" && x.value.startsWith("application/schema+json"))) throw new Error("vercel.json does not serve /schema/1.0/*.schema.json as application/schema+json");
+const exampleFiles = walk(join(dist, "examples")).filter((f) => f.endsWith(".json"));
+if (exampleFiles.length !== std.examples.length || !exampleFiles.length) throw new Error(`expected ${std.examples.length} examples in dist/examples, found ${exampleFiles.length}`);
+for (const f of exampleFiles) {
+  let ex;
+  try { ex = JSON.parse(readFileSync(f, "utf8")); } catch (e) { throw new Error(`${f}: example does not parse: ${e.message}`); }
+  for (const mo of ex.moments ?? (ex.moment_uri && ex.start_ms !== undefined && ex.asset_id ? [ex] : [])) {
+    if (mo.id && mo.id !== momentId(catalog.origin, mo.asset_id, mo.start_ms, mo.end_ms)) throw new Error(`${f}: moment id ${mo.id} does not recompute`);
+  }
+}
+{
+  const html = readFileSync(join(dist, "spec/1.0/index.html"), "utf8");
+  const toc = html.match(/<nav aria-label="Specification contents">([\s\S]*?)<\/nav>/)?.[1] ?? "";
+  const have = ids(html);
+  for (const id of SPEC_CONTENTS) {
+    if (!toc.includes(`href="#${id}"`)) throw new Error(`spec contents lacks section #${id}`);
+    if (!have.has(id)) throw new Error(`spec section #${id} referenced by the contents is missing`);
+  }
+  for (const id of SPEC_ANCHORS) if (!have.has(id)) throw new Error(`spec anchor #${id} is missing`);
+  for (const [, id] of toc.matchAll(/href="#([^"]+)"/g)) if (!have.has(id)) throw new Error(`spec contents links #${id}, which is missing`);
+}
 console.log("guard ok");

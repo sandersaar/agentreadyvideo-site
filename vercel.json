@@ -1,11 +1,24 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "node build.mjs",
+  "buildCommand": "node scripts/sync-standard.mjs && node build.mjs",
   "outputDirectory": "dist",
   "installCommand": "",
   "framework": null,
   "cleanUrls": true,
   "headers": [
+    {
+      "source": "/schema/1.0/(.*)\\.schema\\.json",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/schema+json; charset=utf-8"
+        }
+      ]
+    },
     {
       "source": "/examples/(.*)",
       "headers": [

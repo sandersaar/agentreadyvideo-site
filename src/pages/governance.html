@@ -19,18 +19,15 @@
 <p>The spec text may be forked under its license. Use of the name "Agent-Ready Video", the short form "ARV" and the badge follows a short conformance mark policy: you may say your site conforms at a level only when a current validator report shows it.</p>
 
 <h2 id="required">How a feature becomes required</h2>
-<ol>
-  <li><strong>Propose.</strong> Anyone opens an issue or pull request on <a href="{{repo}}">GitHub</a> that says what the feature is, who needs it, and which existing standard it reuses.</li>
-  <li><strong>Draft as optional.</strong> The change lands in the draft as MAY or SHOULD, with example objects, schema changes and validator checks in the same change. It is listed in <a href="/spec/1.0#changes">spec section 6</a> and the <a href="/changelog">changelog</a>.</li>
-  <li><strong>Implement twice.</strong> Two independent implementations pass the validator for the feature. At least one is not the maintainer's.</li>
-  <li><strong>Make it required.</strong> Only then does the feature become MUST, in the next version, with a dated entry in the changelog.</li>
-  <li><strong>Freeze the version.</strong> Published schema versions and version URLs never change. A breaking change gets a new version path, such as <code>/spec/1.1</code> or <code>/schema/2.0/</code>.</li>
-</ol>
+{{governance:When a feature becomes required}}
+
+<h2 id="propose">How to propose a change</h2>
+{{governance:How to propose a change}}
 
 <h2 id="status">Status and roadmap</h2>
 <ul>
-  <li><strong>Now:</strong> Draft 1.0, proposed, published 2026-09-23 at <a href="/spec/1.0">/spec/1.0</a>. Spec text, example objects, the quick start and llms.txt are live. Every change is in the <a href="/changelog">changelog</a>.</li>
-  <li><strong>Next:</strong> JSON Schemas at fixed URLs, the validator and badge, and three starters.</li>
+  <li><strong>Now:</strong> Draft 1.0, proposed, published 2026-09-23 at <a href="/spec/1.0">/spec/1.0</a>. Spec text, JSON Schemas at <a href="/schema/1.0/">/schema/1.0/</a>, example objects, the quick start and llms.txt are live. Every change is in the <a href="/changelog">changelog</a>.</li>
+  <li><strong>Next:</strong> the validator and badge, and three starters.</li>
   <li><strong>Proposed:</strong> a W3C Community Group. It is not formed yet. A Community Group can publish reports, but those are not W3C Recommendations.</li>
   <li><strong>Submitted:</strong> provisional registration of the <code>arv:</code> URI scheme with IANA, requested 2026-09-24.</li>
   <li><strong>Filed:</strong> a schema.org guidance issue on Clip ids for video moments, <a href="https://github.com/schemaorg/schemaorg/issues/4923">schemaorg/schemaorg#4923</a>.</li>
@@ -39,7 +36,7 @@
 
 <h2 id="contribute">Contribute</h2>
 <div class="grid">
-  <div class="card"><span class="tag">Open now</span><h3>GitHub</h3><p>Spec text, examples and this site are public. File issues, suggest wording, or send a pull request.</p><p class="go"><a href="{{repo}}">github.com/sandersaar/agentreadyvideo-site</a></p></div>
+  <div class="card"><span class="tag">Open now</span><h3>GitHub</h3><p>Spec text, schemas and examples are public. File issues, suggest wording, or send a pull request.</p><p class="go"><a href="{{std:repo}}">github.com/sandersaar/agentreadyvideo</a></p></div>
   <div class="card"><span class="tag">Proposed</span><h3>W3C Community Group</h3><p>A free group where anyone with a W3C account can join, comment and back the work. It is proposed and not yet formed. Email us to be told when it opens.</p></div>
   <div class="card"><span class="tag">Open now</span><h3>Email</h3><p>Tell us what you publish or build and what you need from the spec.</p><p class="go"><a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p></div>
 </div>

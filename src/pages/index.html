@@ -98,26 +98,7 @@
 
 <h2 id="bindings">The thirteen standards it binds</h2>
 <p>ARV reuses each of these as it is. The third column is all ARV adds.</p>
-<div class="table-wrap bindings">
-<table>
-<thead><tr><th>Standard</th><th>What it covers</th><th>What ARV adds</th><th>When</th></tr></thead>
-<tbody>
-<tr><td>schema.org VideoObject, Clip, SeekToAction</td><td>Video and chapter metadata for search engines</td><td>Clip <code>@id</code> equals the moment URI; rights decide which markup is emitted</td><td>Crawl</td></tr>
-<tr><td>W3C Media Fragments (<code>#t=start,end</code>)</td><td>Addressing a time range in a media URL</td><td>The snapped range is the identity, in milliseconds</td><td>Crawl, inference, playback</td></tr>
-<tr><td>Video sitemaps, MRSS</td><td>Listing videos for crawlers and feeds</td><td>Per-moment entries and a link to the manifest</td><td>Crawl</td></tr>
-<tr><td>llms.txt</td><td>A plain guide for language models</td><td>Fixed section order that points at the manifest and tools</td><td>Crawl</td></tr>
-<tr><td>IndexNow</td><td>Push notice of changed URLs</td><td>Push when a moment or its rights change, not only the page</td><td>Crawl</td></tr>
-<tr><td>RSL 1.0</td><td>Machine-readable license and payment terms</td><td>Per-moment video terms: segment display, source embed, quote limits</td><td>Crawl, inference</td></tr>
-<tr><td>IETF AIPREF (Content-Usage)</td><td>Training, AI use and search preferences</td><td>Header derived from the same rights record as RSL, so they never disagree</td><td>Crawl</td></tr>
-<tr><td>MCP and MCP Apps</td><td>Agent tool calls and in-chat UI</td><td>Origin tool profile with fixed names and shapes; forbidden-field rule</td><td>Inference</td></tr>
-<tr><td>WebMCP</td><td>Tools a page exposes to an in-browser agent</td><td>Page profile: three tools plus an optional ask</td><td>Inference</td></tr>
-<tr><td>NLWeb</td><td><code>/ask</code> returning schema.org items</td><td>Items are Clips that carry moment URIs</td><td>Inference</td></tr>
-<tr><td>A2A agent card</td><td>Agent-to-agent discovery</td><td>Card skills map one to one to the MCP profile</td><td>Inference</td></tr>
-<tr><td>JSON Schema, JWS, JWKS</td><td>Shape validation, signatures, key sets</td><td>Versioned schema URLs; signed playback tokens and receipts</td><td>All</td></tr>
-<tr><td>HLS, DASH, MP4, iframe players</td><td>Delivery and players</td><td>Player-neutral descriptor with a start time and optional cue points</td><td>Playback</td></tr>
-</tbody>
-</table>
-</div>
+{{standards-table}}
 
 <h2 id="status">Status and roadmap</h2>
 <div class="table-wrap">
@@ -126,7 +107,7 @@
 <tbody>
 <tr><td>Specification</td><td>Draft 1.0, proposed. Published 2026-09-23 at <a href="/spec/1.0">/spec/1.0</a>. It may change before 1.0 is final. See the <a href="/changelog">changelog</a>.</td></tr>
 <tr><td>Quick start and examples</td><td>Live now. <a href="/quickstart">Reach L1 on a static site</a> with <a href="/schema/1.0/">seven example objects</a>.</td></tr>
-<tr><td>JSON Schemas</td><td>Coming. Each will live at a fixed, versioned URL.</td></tr>
+<tr><td>JSON Schemas</td><td>Live. <a href="/schema/1.0/">Seven schemas</a> at fixed, versioned URLs.</td></tr>
 <tr><td>Validator and badge</td><td>Coming. One command checks L1, L2 and L3.</td></tr>
 <tr><td>Starters</td><td>Coming: reference producer, player adapter, MCP origin profile.</td></tr>
 <tr><td>URI scheme</td><td>Provisional registration of <code>arv:</code> requested from IANA on 2026-09-24.</td></tr>

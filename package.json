@@ -6,8 +6,9 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "node build.mjs",
-    "preview": "node build.mjs && node scripts/serve.mjs"
+    "sync": "node scripts/sync-standard.mjs",
+    "build": "npm run sync && node build.mjs",
+    "preview": "npm run build && node scripts/serve.mjs"
   },
   "engines": {
     "node": ">=18"
