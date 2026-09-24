@@ -70,7 +70,13 @@ for (const file of readdirSync(join(root, "src/pages"))) {
   const m = raw.match(/^<!--\s*(\{[\s\S]*?\})\s*-->\n/);
   if (!m) throw new Error(`missing front matter in ${file}`);
   const meta = JSON.parse(m[1]);
-  const body = raw.slice(m[0].length).replace(/\{\{example:([a-z-]+)\}\}/g, (_, n) => example(n));
+  let body = raw.slice(m[0].length).replace(/\{\{example:([a-z-]+)\}\}/g, (_, n) => example(n));
+  // Give each table cell a data-label from its column header, so tables stack on phones.
+  body = body.replace(/<table>([\s\S]*?)<\/table>/g, (t) => {
+    const heads = [...t.matchAll(/<th>([\s\S]*?)<\/th>/g)].map((h) => h[1].replace(/<[^>]+>/g, ""));
+    return t.replace(/<tr>([\s\S]*?)<\/tr>/g, (row, cells) =>
+      /<th>/.test(cells) ? row : "<tr>" + (() => { let i = 0; return cells.replace(/<td>/g, () => `<td data-label="${heads[i++] ?? ""}">`); })() + "</tr>");
+  });
   const out = join(dist, meta.out);
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, layout(meta, body));

@@ -60,7 +60,7 @@ header nav a { color: var(--muted); text-decoration: none; font-size: 15px; padd
 header nav a:hover, header nav a[aria-current="page"] { color: var(--text); }
 header nav a[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--accent); }
 
-main { padding-top: 28px; padding-bottom: 64px; }
+main { padding-top: 36px; padding-bottom: 64px; }
 .status { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 12px; font: 600 13px/1 var(--mono); color: var(--warn); background: var(--warn-soft); padding: 7px 10px; border-radius: 999px; }
 .status .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 
@@ -86,9 +86,17 @@ table { border-collapse: collapse; width: 100%; font-size: 15px; }
 th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--border); }
 th { background: var(--surface-2); font-weight: 600; font-size: 14px; }
 tr:last-child td { border-bottom: 0; }
-.bindings table { min-width: 640px; }
+@media (max-width: 640px) {
+  .table-wrap { overflow-x: visible; }
+  .table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .table-wrap tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .table-wrap tr:last-child { border-bottom: 0; }
+  .table-wrap td { display: block; border: 0; padding: 3px 14px; }
+  .table-wrap td::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .table-wrap td:first-child { font-weight: 600; }
+}
 
-.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 16px 0 8px; }
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin: 16px 0 8px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
 .card h3 { margin: 0 0 6px; font-size: 17px; }
 .card p { margin: 0; color: var(--muted); font-size: 15px; }
@@ -109,3 +117,7 @@ ol.checks li { margin: 4px 0; }
 footer.site { border-top: 1px solid var(--border); background: var(--surface); }
 .foot { padding-top: 24px; padding-bottom: 32px; font-size: 14px; color: var(--muted); }
 .foot p { margin: 4px 0; }
+@media (max-width: 719px) {
+  header.site { position: static; }
+  html { scroll-padding-top: 16px; }
+}
