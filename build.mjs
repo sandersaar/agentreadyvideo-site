@@ -257,7 +257,7 @@ ${meta.nostatus ? "" : `<p class="status"><span class="dot" aria-hidden="true"><
     <div class="foot-cols">
       <div>
         <p>Maintainer: <a href="https://agentcdn.com">AgentCDN</a></p>
-        <p>Supporters: open, join the Agent-Ready Video Community Group at W3C (proposal pending)</p>
+        <p>Supporters: the Agent-Ready Video Community Group at W3C is announced for support. <a href="https://www.w3.org/community/blog/2026/09/25/proposed-group-agent-ready-video-community-group/">Support the proposal at W3C</a>.</p>
         <p>Contact: <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p>
         <p>Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch. Code: Apache-2.0. Docs: CC-BY-4.0.</p>
         <p>Cite as: Agent-Ready Video (ARV) Specification, Draft 1.0. AgentCDN, 2026. <a href="${SPEC}">${SITE}${SPEC}</a></p>
