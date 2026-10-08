@@ -336,7 +336,7 @@ ${[...std.schemas].sort((x, y) => ((i) => i(x) - i(y))((n) => { const k = Object
 </table>
 </div>`;
 const CHANGELOG_TITLES = {
-  Unreleased: "Public source repository",
+  Unreleased: "Reporting use, usage_url and receipt typ",
   "2026-09-24": "Entitlement and payment fields, site launch, registrations",
   "2026-09-23": "Draft 1.0 proposed",
 };
