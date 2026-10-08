@@ -40,7 +40,7 @@ const exampleObj = (name) => JSON.parse(exampleJson(name));
 const codeFigure = (caption, code, lang = "") =>
   `<figure class="code"${lang ? ` data-lang="${lang}"` : ""}><figcaption><span class="file">${caption}</span></figcaption><pre tabindex="0"><code>${esc(code)}</code></pre></figure>`;
 const example = (name) => codeFigure(`<a href="/examples/1.0/${name}.json">/examples/1.0/${name}.json</a>`, exampleJson(name), "json");
-const LABELS = { "rights-summary-account-link": "Restricted rights summary", manifest: "Manifest", moment: "Moment", "playback-descriptor": "Playback descriptor", "usage-receipt": "Usage receipt", asset: "Asset", catalog: "Catalog", "rights-summary": "Rights summary" };
+const LABELS = { "rights-summary-account-link": "Restricted rights summary", manifest: "Manifest", moment: "Moment", "playback-descriptor": "Playback descriptor", "usage-receipt": "Usage receipt", "usage-request": "Usage request", asset: "Asset", catalog: "Catalog", "rights-summary": "Rights summary" };
 const tabs = (id, items) => `<div class="tabs" data-tabs>
 <div class="tablist" role="tablist" aria-label="Example objects">
 ${items.map((n, i) => `<button type="button" role="tab" id="${id}-tab-${n}" aria-controls="${id}-${n}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ""}>${LABELS[n]}</button>`).join("\n")}
@@ -321,7 +321,7 @@ const videoJsonLd = {
     "@type": "Clip", "@id": m.moment_uri, name: m.title, startOffset: m.start_ms / 1000, endOffset: m.end_ms / 1000, url: m.moment_url,
   })),
 };
-const SCHEMA_ANCHOR = { asset: "asset", moment: "moment", "rights-summary": "rights-summary", "playback-descriptor": "playback-descriptor", "usage-receipt": "usage-receipt", manifest: "manifest", catalog: "catalog" };
+const SCHEMA_ANCHOR = { asset: "asset", moment: "moment", "rights-summary": "rights-summary", "playback-descriptor": "playback-descriptor", "usage-receipt": "usage-receipt", "usage-request": "reporting-use", manifest: "manifest", catalog: "catalog" };
 const schemaTable = () => `<div class="table-wrap">
 <table>
 <thead><tr><th>Object</th><th>Schema</th><th>Example</th></tr></thead>
