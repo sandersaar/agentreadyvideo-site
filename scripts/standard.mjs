@@ -10,14 +10,14 @@ const IDS = {
   "1": "purpose", "1.1": "one-manifest", "1.2": "standards", "1.3": "name",
   "2": "scope", "2.1": "in-scope", "2.2": "out-of-scope", "2.3": "moment-address",
   "3": "objects", "3.1": "asset", "3.2": "moment", "3.3": "rights-summary", "3.3.1": "entitlement-payment",
-  "3.4": "playback-descriptor", "3.5": "usage-receipt", "3.6": "manifest", "3.7": "catalog",
+  "3.4": "playback-descriptor", "3.5": "usage-receipt", "3.5.1": "reporting-use", "3.6": "manifest", "3.7": "catalog",
   "4": "bindings", "4.1": "crawl-time", "4.2": "inference-time", "4.3": "playback",
   "5": "conformance", "5.1": "l1", "5.2": "l2", "5.3": "l3", "5.4": "badge",
 };
 const TEXT_IDS = { "Forbidden-field rule (normative)": "forbidden-fields" };
 // Every entry of the spec contents. The build fails if one is missing from the page or the contents.
-export const SPEC_CONTENTS = ["top", "conventions", "glossary", ...Object.values(IDS).filter((id) => !["entitlement-payment"].includes(id)), "changes", "cite"];
-export const SPEC_ANCHORS = [...SPEC_CONTENTS, "entitlement-payment", "forbidden-fields"];
+export const SPEC_CONTENTS = ["top", "conventions", "glossary", ...Object.values(IDS).filter((id) => !["entitlement-payment", "reporting-use"].includes(id)), "changes", "cite"];
+export const SPEC_ANCHORS = [...SPEC_CONTENTS, "entitlement-payment", "reporting-use", "forbidden-fields"];
 
 const slug = (s) => s.toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-");
 const ghSlug = (s) => s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s/g, "-");
