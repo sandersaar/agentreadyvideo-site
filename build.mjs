@@ -337,6 +337,7 @@ ${[...std.schemas].sort((x, y) => ((i) => i(x) - i(y))((n) => { const k = Object
 </div>`;
 const CHANGELOG_TITLES = {
   Unreleased: "Reporting use, usage_url and receipt typ",
+  "2026-10-05": "arv URI scheme registered at IANA",
   "2026-09-24": "Entitlement and payment fields, site launch, registrations",
   "2026-09-23": "Draft 1.0 proposed",
 };
