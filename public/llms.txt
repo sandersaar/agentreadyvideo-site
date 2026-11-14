@@ -1,6 +1,6 @@
 # Agent-Ready Video (ARV)
 
-> Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Optional entitlement and payment fields say when a moment needs a linked account or payment. Status: Draft 1.0, proposed. Maintained by AgentCDN.
+> Agent-Ready Video (ARV) is an open standard that makes video usable by AI agents. It binds existing standards (schema.org, Media Fragments, video sitemaps, llms.txt, IndexNow, RSL, AIPREF, MCP, WebMCP, NLWeb, A2A, JSON Schema and JWS, and common players) into one manifest, one validator and one badge. It adds five things: range-addressed moments, per-moment rights, typed evidence, player-neutral playback, and signed usage receipts. Optional entitlement and payment fields say when a moment needs a linked account or payment. Status: Draft 1.0, proposed. Maintained by AgentTV (formerly AgentCDN).
 
 ## What this is
 
@@ -37,7 +37,7 @@
 ## License
 
 - Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch. Code: Apache-2.0. Docs: CC-BY-4.0.
-- Suggested citation: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. https://agentreadyvideo.org/spec/1.0
+- Suggested citation: Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentTV, 2026. https://agentreadyvideo.org/spec/1.0
 - Contact: team@agentreadyvideo.org
 
 ## Example questions
