@@ -17,7 +17,12 @@ const PUBLISHED = "2026-09-23";
 const UPDATED = "2026-09-24";
 const OG_IMAGE = `${SITE}/og.png`;
 const OG_ALT = "Agent-Ready Video (ARV). The open standard that makes video usable by AI agents. Draft 1.0, proposed.";
-const CITE = `Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). AgentCDN, 2026. ${SITE}${SPEC}`;
+// The maintainer of the standard. Every page, JSON-LD block and llms file reads it from here.
+// AgentTV was called AgentCDN until 2026-10-30; the old name appears only as "formerly AgentCDN"
+// and as the JSON-LD alternateName, and the guard below rejects it anywhere else.
+const MAINTAINER = { name: "AgentTV", url: "https://agenttv.com", formerly: "AgentCDN" };
+const MAINTAINER_LINK = `<a href="${MAINTAINER.url}">${MAINTAINER.name}</a>`;
+const CITE = `Agent-Ready Video (ARV) Specification, Draft 1.0 (proposed). ${MAINTAINER.name}, 2026. ${SITE}${SPEC}`;
 const LICENSES = {
   spec: "https://github.com/CommunitySpecification/1.0",
   code: "https://www.apache.org/licenses/LICENSE-2.0",
@@ -62,8 +67,9 @@ const WEBSITE_ID = `${SITE}/#website`;
 const organization = {
   "@type": "Organization",
   "@id": ORG_ID,
-  name: "AgentCDN",
-  url: "https://agentcdn.com",
+  name: MAINTAINER.name,
+  alternateName: MAINTAINER.formerly,
+  url: MAINTAINER.url,
   description: "Maintainer of the Agent-Ready Video (ARV) specification, schemas and validator.",
   contactPoint: { "@type": "ContactPoint", email: "team@agentreadyvideo.org", contactType: "specification feedback" },
 };
@@ -256,11 +262,11 @@ ${meta.nostatus ? "" : `<p class="status"><span class="dot" aria-hidden="true"><
   <div class="wrap foot">
     <div class="foot-cols">
       <div>
-        <p>Maintainer: <a href="https://agentcdn.com">AgentCDN</a></p>
+        <p>Maintainer: ${MAINTAINER_LINK}</p>
         <p>Supporters: the Agent-Ready Video Community Group at W3C is announced for support. <a href="https://www.w3.org/community/blog/2026/09/25/proposed-group-agent-ready-video-community-group/">Support the proposal at W3C</a>.</p>
         <p>Contact: <a href="mailto:team@agentreadyvideo.org">team@agentreadyvideo.org</a></p>
         <p>Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch. Code: Apache-2.0. Docs: CC-BY-4.0.</p>
-        <p>Cite as: Agent-Ready Video (ARV) Specification, Draft 1.0. AgentCDN, 2026. <a href="${SPEC}">${SITE}${SPEC}</a></p>
+        <p>Cite as: Agent-Ready Video (ARV) Specification, Draft 1.0. ${MAINTAINER.name}, 2026. <a href="${SPEC}">${SITE}${SPEC}</a></p>
       </div>
       <nav aria-label="Site index">
         <p><a href="${SPEC}">Spec 1.0</a> · <a href="/quickstart">Quick start</a> · <a href="/schema/1.0/">Schema</a> · <a href="/implementations">Implementations</a></p>
@@ -365,7 +371,10 @@ const macros = (body) => body
   .replace(/\{\{json:video-jsonld\}\}/g, () => JSON.stringify(videoJsonLd, null, 2))
   .replace(/\{\{mid:call\}\}/g, () => `"${catalog.origin}", "${qsMoment.asset_id}", ${qsMoment.start_ms}, ${qsMoment.end_ms}`)
   .replace(/\{\{mid:id\}\}/g, () => momentId(catalog.origin, qsMoment.asset_id, qsMoment.start_ms, qsMoment.end_ms))
-  .replace(/\{\{std:(repo|sha|short)\}\}/g, (_, k) => std[k]);
+  .replace(/\{\{std:(repo|sha|short)\}\}/g, (_, k) => std[k])
+  .replace(/\{\{maintainer\}\}/g, MAINTAINER.name)
+  .replace(/\{\{maintainer-link\}\}/g, MAINTAINER_LINK)
+  .replace(/\{\{maintainer-formerly\}\}/g, `formerly ${MAINTAINER.formerly}`);
 
 // ---------- pages ----------
 const pages = [];
@@ -433,7 +442,7 @@ const specPage = pages.find((p) => p.path === SPEC);
 const faq = pages.find((p) => p.path === "/faq");
 writeFileSync(join(dist, "llms-full.txt"), `# Agent-Ready Video (ARV): full specification text
 
-> ${STATUS}. Published ${PUBLISHED}, updated ${UPDATED}. Canonical URL: ${SITE}${SPEC}. Maintained by AgentCDN. Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch.
+> ${STATUS}. Published ${PUBLISHED}, updated ${UPDATED}. Canonical URL: ${SITE}${SPEC}. Maintained by ${MAINTAINER.name}. Spec text: contributed to the W3C Agent-Ready Video Community Group under the W3C CLA at launch.
 > Source: ${std.repo} at commit ${std.sha}.
 > Suggested citation: ${CITE}
 
@@ -448,6 +457,10 @@ console.log("built llms-full.txt");
 // ---------- guard ----------
 const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
 const banned = [/—/, /\bARVP\b/, /Agent-Ready Video Protocol/i, /Agent-Readable/i, /\bBitmovin\b/i, /ReReview|Red Bull|CNET|NOAA/i];
+// The former maintainer name (and its domain) is allowed only as "formerly AgentCDN", "then AgentCDN" and the
+// JSON-LD alternateName. Lowercase internal identifiers such as an MCP server name are not the brand.
+const formerName = new RegExp(`\\b${MAINTAINER.formerly}\\b|${MAINTAINER.formerly.toLowerCase()}\\.com`);
+const formerAllowed = new RegExp(`(formerly|then) ${MAINTAINER.formerly}|"alternateName":\\s*"${MAINTAINER.formerly}"`, "g");
 const llms = readFileSync(join(dist, "llms.txt"), "utf8");
 const sitemap = readFileSync(join(dist, "sitemap.xml"), "utf8");
 const vercel = JSON.parse(readFileSync(join(root, "vercel.json"), "utf8"));
@@ -468,6 +481,7 @@ for (const f of walk(dist)) {
   if (!/\.(html|txt|json|css|svg|xml|js)$/.test(f)) continue;
   const t = readFileSync(f, "utf8");
   for (const re of banned) if (re.test(t)) throw new Error(`banned text ${re} in ${f}`);
+  if (formerName.test(t.replace(formerAllowed, ""))) throw new Error(`former maintainer name outside "formerly ${MAINTAINER.formerly}" in ${f}`);
   const en = t.match(/.{0,12}–.{0,12}/g) || [];
   for (const hit of en) if (!/\d\s*–\s*\d/.test(hit)) throw new Error(`en dash outside a numeric range in ${f}: ${hit}`);
   if (!f.endsWith(".html")) continue;
